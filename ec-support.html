@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EC問い合わせ自動対応デモ</title>
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{font-family:'Helvetica Neue',Arial,'Hiragino Kaku Gothic ProN',sans-serif;background:#f0f2f5;min-height:100vh;display:flex;flex-direction:column;align-items:center}
+
+.header{width:100%;background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;padding:20px 24px;text-align:center}
+
+.header h1{font-size:1.2rem;font-weight:600}
+
+.header p{font-size:.8rem;opacity:.85;margin-top:4px}
+
+.chat-container{width:100%;max-width:480px;flex:1;display:flex;flex-direction:column;background:#fff;margin:0 auto;box-shadow:0 2px 20px rgba(0,0,0,.08)}
+
+.messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+
+.msg{max-width:82%;padding:12px 16px;border-radius:18px;font-size:.9rem;line-height:1.6;animation:fadeIn .3s ease}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.bot{background:#f0f2f5;color:#1a1a2e;align-self:flex-start;border-bottom-left-radius:4px}
+
+.user{background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+
+.quick-replies{display:flex;flex-wrap:wrap;gap:8px;padding:8px 16px}
+
+.quick-btn{background:#fff;border:1.5px solid #f5576c;color:#f5576c;padding:8px 14px;border-radius:20px;font-size:.8rem;cursor:pointer;transition:all .2s}
+
+.quick-btn:hover{background:#f5576c;color:#fff}
+
+.input-area{display:flex;gap:8px;padding:12px 16px;border-top:1px solid #e8e8e8;background:#fff}
+
+.input-area input{flex:1;border:1.5px solid #ddd;border-radius:24px;padding:10px 16px;font-size:.9rem;outline:none;transition:border .2s}
+
+.input-area input:focus{border-color:#f5576c}
+
+.input-area button{background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;border:none;border-radius:50%;width:42px;height:42px;cursor:pointer;font-size:1.1rem;transition:transform .2s}
+
+.input-area button:hover{transform:scale(1.05)}
+
+.typing{display:flex;gap:4px;padding:12px 16px;align-self:flex-start}
+
+.typing span{width:8px;height:8px;background:#aaa;border-radius:50%;animation:bounce .6s infinite alternate}
+
+.typing span:nth-child(2){animation-delay:.2s}
+
+.typing span:nth-child(3){animation-delay:.4s}
+
+@keyframes bounce{to{transform:translateY(-6px);opacity:.4}}
+
+.badge{display:inline-block;background:rgba(245,87,108,.12);color:#f5576c;font-size:.7rem;padding:2px 8px;border-radius:10px;margin-bottom:4px}
+
+.status-card{background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;padding:12px;margin-top:8px;font-size:.85rem}
+
+.status-card .label{color:#9a3412;font-weight:600;font-size:.75rem}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+<h1>🛒 ECサイト カスタマーサポート</h1>
+
+<p>問い合わせ自動対応システム ─ デモ版</p>
+
+</div>
+
+<div class="chat-container">
+
+<div class="messages" id="messages"></div>
+
+<div class="quick-replies" id="quickReplies"></div>
+
+<div class="input-area">
+
+<input type="text" id="userInput" placeholder="お問い合わせ内容を入力..." onkeypress="if(event.key==='Enter')sendMessage()">
+
+<button onclick="sendMessage()">➤</button>
+
+</div>
+
+</div>
+
+<script>
+
+const faq = [
+
+  {q:["配送","届かない","届いてない","いつ届く","発送"],a:"配送状況を確認いたします。\n\n📦 注文番号をお伝えいただければ、リアルタイムで追跡いたします。\n\n一般的な配送目安：\n・関東：翌日〜2日\n・関西：2〜3日\n・その他地域：3〜5日\n\n※土日祝は翌営業日の発送となります。",status:{label:"配送ステータス例",order:"#EC-20260302-1234",state:"発送済み（佐川急便）",tracking:"5678-9012-3456"}},
+
+  {q:["返品","返却","交換","不良品","壊れ","破損","サイズ"],a:"返品・交換について承ります。\n\n【返品・交換条件】\n✅ 商品到着後7日以内\n✅ 未使用・未開封の商品\n✅ 不良品の場合は送料当社負担\n\n【手順】\n1. 注文番号をお知らせください\n2. 返品理由を確認\n3. 返送先をご案内\n4. 商品到着後、返金または交換品発送\n\n不良品の場合は写真をお送りいただけると迅速に対応できます。"},
+
+  {q:["支払い","クレジット","決済","コンビニ","振込","払い"],a:"ご利用可能なお支払い方法は以下の通りです。\n\n💳 クレジットカード（VISA/Master/JCB/AMEX）\n🏪 コンビニ払い（手数料無料）\n🏦 銀行振込\n📱 PayPay / LINE Pay / 楽天ペイ\n🔄 後払い（Paidy）\n\nお支払いに関するトラブルがございましたらお申し付けください。"},
+
+  {q:["キャンセル","取り消し","注文取消","やめたい"],a:"ご注文のキャンセルについてご案内いたします。\n\n⏰ 発送前：マイページからキャンセル可能\n📦 発送後：お届け後に返品手続きをお願いします\n\n【マイページからの手順】\n1. 注文履歴を開く\n2. 該当注文の「キャンセル」をクリック\n3. キャンセル理由を選択\n4. 確認画面で「確定」\n\nご不明な点はお気軽にどうぞ。"},
+
+  {q:["ポイント","クーポン","割引","セール"],a:"ポイント・クーポンについてのご案内です。\n\n🎁 ポイント：購入金額の3%還元\n🏷️ クーポン：マイページで確認・適用\n📧 メルマガ限定クーポン配信中\n\n【現在のキャンペーン】\n・初回購入 10%OFF\n・まとめ買い3点以上で送料ᅭ料\n・レビュー投稿で500pt プレゼント"},
+
+  {q:["在庫","入荷","再入荷","品切れ","売り切れ"],a:"在庫・入荷情報についてお答えします。\n\n商品ページの「再入荷通知」ボタンをクリックすると、入荷時にメールでお知らせいたします。\n\n📧 再入荷通知の登録は無料\n⏰ 入荷後すぐにメール配信\n🛒 通知メールから直接購入可能\n\n特定の商品についてのお問い合わせは、商品名をお伝えください。"},
+
+  {q:["会員","登録","ログイン","パスワード","アカウント"],a:"アカウントに関するご案内です。\n\n🔑 パスワードをお忘れの場合：\nログイン画面「パスワードを忘れた方」から再設定\n\n👤 会員登録：\nメールアドレスまたはSNSアカウントで簡単登録\n\n📧 メールが届かない場合：\n迷惑メールフォルダをご確認ください"},
+
+  {q:["送料","配送料","無料"],a:"送料についてのご案内です。\n\n📦 通常配送：全国一律 550円（税込）\n🚀 お急ぎ便：880円（税込）\n🆓 5,000円以上のご注文で送料無料！\n\n離島・一部地域は追加料金が発生する場合がございます。"},
+
+];
+
+
+
+const quickButtons = [
+
+  "配送状況を確認","返品・交換","支払い方法","注文キャンセル","ポイント・クーポン","送料について"
+
+];
+
+
+
+function init(){
+
+  addBotMessage("いらっしゃいませ！ECサイトの自動カスタマーサポートです 🛍️\n\nお問い合わせ内容をお選びいただくか、ご質問を入力してください。");
+
+  showQuickReplies(quickButtons);
+
+}
+
+
+
+function addBotMessage(text,statusData,delay=700){
+
+  const msgs=document.getElementById('messages');
+
+  const typing=document.createElement('div');
+
+  typing.className='typing';
+
+  typing.innerHTML='<span></span><span></span><span></span>';
+
+  msgs.appendChild(typing);
+
+  msgs.scrollTop=msgs.scrollHeight;
+
+  setTimeout(()=>{
+
+    typing.remove();
+
+    const div=document.createElement('div');
+
+    div.className='msg bot';
+
+    let html='<div class="badge">自動応答</div><br>'+text.replace(/\n/g,'<br>');
+
+    if(statusData){
+
+      html+=`<div class="status-card"><div class="label">${statusData.label}</div>注文番号: ${statusData.order}<br>状態: ${statusData.state}<br>追跡番号: ${statusData.tracking}</div>`;
+
+    }
+
+    div.innerHTML=html;
+
+    msgs.appendChild(div);
+
+    msgs.scrollTop=msgs.scrollHeight;
+
+  },delay);
+
+}
+
+
+
+function addUserMessage(text){
+
+  const msgs=document.getElementById('messages');
+
+  const div=document.createElement('div');
+
+  div.className='msg user';
+
+  div.textContent=text;
+
+  msgs.appendChild(div);
+
+  msgs.scrollTop=msgs.scrollHeight;
+
+}
+
+
+
+function showQuickReplies(buttons){
+
+  const container=document.getElementById('quickReplies');
+
+  container.innerHTML='';
+
+  buttons.forEach(b=>{
+
+    const btn=document.createElement('button');
+
+    btn.className='quick-btn';
+
+    btn.textContent=b;
+
+    btn.onclick=()=>{sendQuick(b)};
+
+    container.appendChild(btn);
+
+  });
+
+}
+
+
+
+function sendQuick(text){
+
+  document.getElementById('quickReplies').innerHTML='';
+
+  addUserMessage(text);
+
+  processInput(text);
+
+}
+
+
+
+function sendMessage(){
+
+  const input=document.getElementById('userInput');
+
+  const text=input.value.trim();
+
+  if(!text)return;
+
+  input.value='';
+
+  document.getElementById('quickReplies').innerHTML='';
+
+  addUserMessage(text);
+
+  processInput(text);
+
+}
+
+
+
+function processInput(text){
+
+  const match=faq.find(f=>f.q.some(k=>text.includes(k)));
+
+  if(match){
+
+    addBotMessage(match.a,match.status);
+
+    setTimeout(()=>showQuickReplies(["他の質問をする","オペレーターに繋ぐ"]),1400);
+
+  } else {
+
+    addBotMessage("お問い合わせありがとうございます。\n\nご質問内容を確認し、より適切な対応ができるよう振り分けを行います。\n\n⚡ 緊急度が高い場合はオペレーターにお繋ぎいたします。");
+
+    setTimeout(()=>showQuickReplies(["オペレーターに繋ぐ","よくある質問を見る"]),1400);
+
+  }
+
+}
+
+
+
+init();
+
+</script>
+
+</body>
+
+  </html>
