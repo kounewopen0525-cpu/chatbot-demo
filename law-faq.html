@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>法律事務所 FAQ自動対応デモ</title>
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{font-family:'Helvetica Neue',Arial,'Hiragino Kaku Gothic ProN',sans-serif;background:#f0f2f5;min-height:100vh;display:flex;flex-direction:column;align-items:center}
+
+.header{width:100%;background:linear-gradient(135deg,#1e3a5f,#2d5a87);color:#fff;padding:20px 24px;text-align:center}
+
+.header h1{font-size:1.2rem;font-weight:600}
+
+.header p{font-size:.8rem;opacity:.85;margin-top:4px}
+
+.chat-container{width:100%;max-width:480px;flex:1;display:flex;flex-direction:column;background:#fff;margin:0 auto;box-shadow:0 2px 20px rgba(0,0,0,.08)}
+
+.messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+
+.msg{max-width:82%;padding:12px 16px;border-radius:18px;font-size:.9rem;line-height:1.6;animation:fadeIn .3s ease}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.bot{background:#f0f2f5;color:#1a1a2e;align-self:flex-start;border-bottom-left-radius:4px}
+
+.user{background:linear-gradient(135deg,#1e3a5f,#2d5a87);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+
+.quick-replies{display:flex;flex-wrap:wrap;gap:8px;padding:8px 16px}
+
+.quick-btn{background:#fff;border:1.5px solid #1e3a5f;color:#1e3a5f;padding:8px 14px;border-radius:20px;font-size:.8rem;cursor:pointer;transition:all .2s}
+
+.quick-btn:hover{background:#1e3a5f;color:#fff}
+
+.input-area{display:flex;gap:8px;padding:12px 16px;border-top:1px solid #e8e8e8;background:#fff}
+
+.input-area input{flex:1;border:1.5px solid #ddd;border-radius:24px;padding:10px 16px;font-size:.9rem;outline:none;transition:border .2s}
+
+.input-area input:focus{border-color:#1e3a5f}
+
+.input-area button{background:linear-gradient(135deg,#1e3a5f,#2d5a87);color:#fff;border:none;border-radius:50%;width:42px;height:42px;cursor:pointer;font-size:1.1rem;transition:transform .2s}
+
+.input-area button:hover{transform:scale(1.05)}
+
+.typing{display:flex;gap:4px;padding:12px 16px;align-self:flex-start}
+
+.typing span{width:8px;height:8px;background:#aaa;border-radius:50%;animation:bounce .6s infinite alternate}
+
+.typing span:nth-child(2){animation-delay:.2s}
+
+.typing span:nth-child(3){animation-delay:.4s}
+
+@keyframes bounce{to{transform:translateY(-6px);opacity:.4}}
+
+.badge{display:inline-block;background:rgba(30,58,95,.12);color:#1e3a5f;font-size:.7rem;padding:2px 8px;border-radius:10px;margin-bottom:4px}
+
+.urgent-badge{display:inline-block;background:#fef2f2;color:#dc2626;font-size:.7rem;padding:2px 8px;border-radius:10px;margin-bottom:4px;border:1px solid #fecaca}
+
+.notice{background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:10px;margin-top:8px;font-size:.8rem;color:#92400e}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+<h1>⚖️ 法律事務所 FAQ自動対応</h1>
+
+<p>離婚・相続・債務整理 ─ 感情検知AI搭載デモ</p>
+
+</div>
+
+<div class="chat-container">
+
+<div class="messages" id="messages"></div>
+
+<div class="quick-replies" id="quickReplies"></div>
+
+<div class="input-area">
+
+<input type="text" id="userInput" placeholder="ご相談内容を入力してください..." onkeypress="if(event.key==='Enter')sendMessage()">
+
+<button onclick="sendMessage()">➤</button>
+
+</div>
+
+</div>
+
+<script>
+
+const urgentWords=["死にたい","殺","暴力","DV","脅迫","自殺","怖い","逃げたい","助けて","緊急"];
+
+const faq = [
+
+  {q:["離婚","別れ","慰謝料","親権","養育費","婚姻"],a:"離婚に関するよくあるご質問にお答えします。\n\n【離婚の種類】\n・協議離婚：夫婦の話し合いで成立\n・調停離婚：家庭裁判所で調停\n・裁判離婚：訴訟による離婚\n\n【主な取り決め事項】\n📋 財産分与\n👶 親権・養育費\n💰 慰謝料\n🏠 住居の問題\n\n具体的なご状況に応じたアドバイスは、無料相請でお伝えできます。"},
+
+  {q:["相続","遺産","遺言","相続税","遺留分"],a:"相続に関するよくあるご質問にお答えします。\n\n【相続の流れ】\n1. 相続人の確定（戸籍調査）\n2. 相綢財産の調査\n3. 遺産分割協議\n4. 相続税の申告（10ヶ月以内）\n\n【注意点】\n⚠️ 相続放棄は3ヶ月以内\n⚠️ 遺言書がある場合は内容確認\n⚠️ 借金も相続対象\n\n期限がある手続きも多いため、お早めのご相談をおすすめします。"},
+
+  {q:["債務整理","借金","自己破産","任意整理","過払い","返済"],a:"債務整理に関するご案内です。\n\n【債務整理の方法】\n\n1️⃣ 任意整理\n将来利息をカット、月々の返済額を減額\n\n2️⃣ 個人再生\n借金を大幅に減額（最大1/5に）\n\n3️⃣ 自己破産\n借金を免除（一定の財産は処分）\n\n4️⃣ 過払い金請求\n払い過ぎた利息を取り戻す\n\n💡 どの方法が最適かは、借入状況により異なります。秘密厳守で無料相談を承ります。"},
+
+  {q:["費用","料金","弁護士費用","いくら","相談料"],a:"弁護士費用についてのご案内です。\n\n📞 初回相談：無料（30分）\n\n【費用の目安】\n・離婚問題：着手金20万円〜\n・相綢問題：着手金15万円〜\n・債務整理：着手金0円〜（分割払い可）\n\n✅ 費用は事前に明確にご説明\n✅ 分割払い対応\n✅ 法テラスの利用も可能\n\n詳細は無料相談でお見積りいたします。"},
+
+  {q:["相談","予約","面談","アクセス","場所"],a:"ご相談のご予約について。\n\n📅 相談受付：平日 9:00〜19:00\n📍 面談：事務所またはオンライン（Zoom）\n📞 電話相談も対応\n\n【ご予約方法】\n・お電話：03-XXXX-XXXX\n・Web予約：24時間受付\n\n初回30分無料でご相談いただけます。\n秘密は厳守いたしますので、安心してご相談ください。"},
+
+  {q:["期間","どのくらい","時間","長い"],a:"手続きにかかる期間の目安です。\n\n⏱️ 離婚（協議）：1〜3ヶ月\n⏱️ 離婚（調停）：3〜6ヶ月\n⏱️ 相綢手続き：3〜12ヶ月\n⏱️ 任意整理：3〜6ヶ月\n⏱️ 自己破産：6〜12ヶ月\n⏱️ 過払い金：3〜6ヶ月\n\n※案件の複雑さにより変動します。"},
+
+];
+
+
+
+const quickButtons = [
+
+  "離婚について","相続について","債務整理について","弁護士費用","無料相談を予約","手続きの期間"
+
+];
+
+
+
+function init(){
+
+  addBotMessage("ようこそ。法律事務所の自動相談窓口です ⚖️\n\nこちらではよくあるご質問に自動でお答えしています。\nご相談内容をお選びいただくか、ご質問を入力してください。\n\n※緊急性の高いご相談は、弁護士に直接お繋ぎいたします。");
+
+  showQuickReplies(quickButtons);
+
+}
+
+
+
+function addBotMessage(text,isUrgent,delay=800){
+
+  const msgs=document.getElementById('messages');
+
+  const typing=document.createElement('div');
+
+  typing.className='typing';
+
+  typing.innerHTML='<span></span><span></span><span></span>';
+
+  msgs.appendChild(typing);
+
+  msgs.scrollTop=msgs.scrollHeight;
+
+  setTimeout(()=>{
+
+    typing.remove();
+
+    const div=document.createElement('div');
+
+    div.className='msg bot';
+
+    const badge=isUrgent?'<div class="urgent-badge">🚨 緊急度：高</div>':'<div class="badge">自動回答</div>';
+
+    let html=badge+'<br>'+text.replace(/\n/g,'<br>');
+
+    if(isUrgent){
+
+      html+='<div class="notice">⚠️ 感情検知AIが緊急性が高いと判断しました。弁護士に直接お繋ぎすることをおすすめします。</div>';
+
+    }
+
+    div.innerHTML=html;
+
+    msgs.appendChild(div);
+
+    msgs.scrollTop=msgs.scrollHeight;
+
+  },delay);
+
+}
+
+
+
+function addUserMessage(text){
+
+  const msgs=document.getElementById('messages');
+
+  const div=document.createElement('div');
+
+  div.className='msg user';
+
+  div.textContent=text;
+
+  msgs.appendChild(div);
+
+  msgs.scrollTop=msgs.scrollHeight;
+
+}
+
+
+
+function showQuickReplies(buttons){
+
+  const container=document.getElementById('quickReplies');
+
+  container.innerHTML='';
+
+  buttons.forEach(b=>{
+
+    const btn=document.createElement('button');
+
+    btn.className='quick-btn';
+
+    btn.textContent=b;
+
+    btn.onclick=()=>{sendQuick(b)};
+
+    container.appendChild(btn);
+
+  });
+
+}
+
+
+
+function sendQuick(text){
+
+  document.getElementById('quickReplies').innerHTML='';
+
+  addUserMessage(text);
+
+  processInput(text);
+
+}
+
+
+
+function sendMessage(){
+
+  const input=document.getElementById('userInput');
+
+  const text=input.value.trim();
+
+  if(!text)return;
+
+  input.value='';
+
+  document.getElementById('quickReplies').innerHTML='';
+
+  addUserMessage(text);
+
+  processInput(text);
+
+}
+
+
+
+function processInput(text){
+
+  const isUrgent=urgentWords.some(w=>text.includes(w));
+
+  if(isUrgent){
+
+    addBotMessage("お気持ちをお聞かせいただきありがとうございます。\n\nお辛い状況にいらっしゃることをお察しいたします。\n\nこのような状況では、弁護士が直接ご対応させていただくのが最善です。\n\n📞 緊急相談ダイヤル：03-XXXX-XXXX\n（平日9:00〜21:00 / 秘密厳守）\n\nすぐにお電話いただくか、下のボタンから緊急予約をお取りください。",true);
+
+    setTimeout(()=>showQuickReplies(["緊急相談を予約する 🚨","電話で相談したい"]),1600);
+
+    return;
+
+  }
+
+  const match=faq.find(f=>f.q.some(k=>text.includes(k)));
+
+  if(match){
+
+    addBotMessage(match.a,false);
+
+    setTimeout(()=>showQuickReplies(["無料相談を予約する","他の質問をする"]),1600);
+
+  } else {
+
+    addBotMessage("お問い合わせありがとうございます。\n\nご質問の内容を分析しております。\nより正確なアドバイスのため、弁護士との無料相談をおすすめいたします。\n\n📅 初回30分無料\n🔒 秘密厳守\n💻 オンライン相談も可能");
+
+    setTimeout(()=>showQuickReplies(["無料相談を予約する 📅","よくある質問を見る"]),1600);
+
+  }
+
+}
+
+
+
+init();
+
+</script>
+
+</body>
+
+  </html>
