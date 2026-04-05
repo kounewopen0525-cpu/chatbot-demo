@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMIERE DENTAL CLINIC | ルミエール歯科クリニック</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--teal:#3d8b7a;--teal-light:#e8f4f0;--teal-dark:#2a6356;--cream:#faf8f5;--warm:#f5efe8;--white:#fff;--black:#1a1a1a;--gray:#6b6b6b;--gray-light:#b5b5b5;--gold:#c4a86b;--border:rgba(0,0,0,.06)}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Noto Sans JP','Helvetica Neue',sans-serif;color:var(--black);background:var(--cream);line-height:1.8;overflow-x:hidden;font-weight:300}
+a{text-decoration:none;color:inherit}
+.serif{font-family:'Cormorant Garamond',Georgia,serif}
+
+/* ===== NAV ===== */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(250,248,245,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:all .4s}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 32px;height:72px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:12px}
+.nav-logo-icon{width:32px;height:32px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;color:var(--white);font-family:'Cormorant Garamond',serif;font-size:.9rem;font-weight:700}
+.nav-logo-text{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;letter-spacing:.08em;color:var(--teal-dark)}
+.nav-logo-sub{font-size:.6rem;color:var(--gray);letter-spacing:.08em;margin-top:-2px}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:.75rem;letter-spacing:.08em;color:var(--gray);font-weight:400;transition:color .3s;position:relative}
+.nav-links a:hover{color:var(--teal)}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--teal);transform:scaleX(0);transition:transform .3s}
+.nav-links a:hover::after{transform:scaleX(1)}
+.nav-tel{display:flex;align-items:center;gap:8px;font-size:.85rem;font-weight:500;color:var(--teal-dark)}
+.nav-tel small{font-size:.65rem;color:var(--gray);font-weight:300}
+.nav-reserve{background:var(--teal);color:var(--white);padding:10px 24px;border-radius:50px;font-size:.75rem;font-weight:500;letter-spacing:.05em;transition:all .3s}
+.nav-reserve:hover{background:var(--teal-dark);transform:translateY(-1px)}
+
+/* ===== HERO ===== */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;background:var(--cream);overflow:hidden}
+.hero-bg{position:absolute;right:0;top:0;bottom:0;width:55%;background:linear-gradient(135deg,var(--teal-light),#d4ebe5);overflow:hidden}
+.hero-bg::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='40' fill='none' stroke='%233d8b7a' stroke-opacity='0.06' stroke-width='1'/%3E%3C/svg%3E")}
+.hero-bg-circle{position:absolute;width:500px;height:500px;border-radius:50%;border:1px solid rgba(61,139,122,.1);top:50%;left:50%;transform:translate(-50%,-50%)}
+.hero-bg-circle:nth-child(2){width:700px;height:700px}
+.hero-bg-circle:nth-child(3){width:300px;height:300px}
+.hero-content{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:140px 32px 80px;width:100%}
+.hero-label{font-size:.7rem;letter-spacing:.3em;color:var(--teal);text-transform:uppercase;margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.hero-label::before{content:'';width:40px;height:1px;background:var(--teal)}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,6vw,4.5rem);font-weight:400;line-height:1.2;margin-bottom:24px;color:var(--black);letter-spacing:.02em}
+.hero h1 em{font-style:italic;color:var(--teal)}
+.hero-sub{font-size:.95rem;color:var(--gray);max-width:460px;margin-bottom:40px;font-weight:300;line-height:2.2}
+.hero-buttons{display:flex;gap:16px;flex-wrap:wrap}
+.btn-teal{display:inline-flex;align-items:center;gap:8px;background:var(--teal);color:var(--white);padding:16px 40px;border-radius:50px;font-size:.85rem;font-weight:400;letter-spacing:.05em;transition:all .4s}
+.btn-teal:hover{background:var(--teal-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(61,139,122,.25)}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--teal);color:var(--teal);padding:16px 40px;border-radius:50px;font-size:.85rem;font-weight:400;letter-spacing:.05em;transition:all .3s}
+.btn-outline:hover{background:var(--teal);color:var(--white)}
+.hero-info{position:absolute;bottom:40px;left:32px;right:32px;max-width:1200px;margin:0 auto;display:flex;gap:40px}
+.hero-info-item{display:flex;align-items:center;gap:12px;font-size:.8rem;color:var(--gray)}
+.hero-info-item::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--teal)}
+
+/* ===== SECTION BASE ===== */
+.section{padding:100px 0}
+.container{max-width:1200px;margin:0 auto;padding:0 32px}
+.section-header{text-align:center;margin-bottom:64px}
+.section-en{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4vw,3rem);font-weight:400;color:var(--teal);letter-spacing:.05em;line-height:1;margin-bottom:8px}
+.section-jp{font-size:.85rem;color:var(--gray);letter-spacing:.15em;font-weight:300}
+.section-line{width:40px;height:1px;background:var(--teal);margin:20px auto 0}
+
+/* ===== CONCEPT ===== */
+.concept{background:var(--white)}
+.concept-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.concept-visual{height:480px;background:linear-gradient(135deg,var(--teal-light),var(--warm));border-radius:8px;position:relative;overflow:hidden}
+.concept-visual::before{content:'';position:absolute;inset:24px;border:1px solid rgba(61,139,122,.15);border-radius:4px}
+.concept-visual-text{position:absolute;bottom:40px;left:40px;font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:400;color:rgba(61,139,122,.12);line-height:1.1}
+.concept-text h2{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:400;line-height:1.6;margin-bottom:24px;color:var(--black)}
+.concept-text h2 em{font-style:italic;color:var(--teal)}
+.concept-text p{font-size:.9rem;color:var(--gray);line-height:2.2;margin-bottom:16px;font-weight:300}
+.concept-values{display:flex;gap:24px;margin-top:32px}
+.concept-value{text-align:center;flex:1}
+.concept-value-num{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--teal);line-height:1}
+.concept-value-label{font-size:.7rem;color:var(--gray);margin-top:4px;letter-spacing:.05em}
+
+/* ===== SERVICES ===== */
+.services{background:var(--cream)}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.service-card{background:var(--white);border-radius:12px;overflow:hidden;transition:all .4s;border:1px solid var(--border)}
+.service-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.06)}
+.service-visual{height:180px;background:var(--teal-light);position:relative;display:flex;align-items:center;justify-content:center}
+.service-icon{font-size:2.5rem;opacity:.6}
+.service-body{padding:28px 24px}
+.service-card h3{font-size:1rem;font-weight:500;margin-bottom:8px;letter-spacing:.02em}
+.service-card p{font-size:.82rem;color:var(--gray);line-height:1.9;font-weight:300}
+.service-link{display:inline-flex;align-items:center;gap:6px;font-size:.75rem;color:var(--teal);margin-top:16px;font-weight:400;transition:gap .3s}
+.service-link:hover{gap:10px}
+
+/* ===== DOCTOR ===== */
+.doctor{background:var(--white)}
+.doctor-inner{display:grid;grid-template-columns:380px 1fr;gap:64px;align-items:start}
+.doctor-photo{height:480px;background:linear-gradient(180deg,var(--warm),var(--teal-light));border-radius:8px;position:relative;display:flex;align-items:end;justify-content:center;overflow:hidden}
+.doctor-photo-placeholder{text-align:center;padding-bottom:40px;color:var(--teal-dark);opacity:.4}
+.doctor-photo-placeholder .icon{font-size:4rem;margin-bottom:8px}
+.doctor-photo-placeholder p{font-size:.75rem;letter-spacing:.1em}
+.doctor-info h2{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:400;margin-bottom:4px}
+.doctor-info .title{font-size:.8rem;color:var(--teal);margin-bottom:24px;font-weight:400}
+.doctor-info .greeting{font-size:.9rem;color:var(--gray);line-height:2.2;font-weight:300;margin-bottom:24px}
+.doctor-certs{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.doctor-cert{background:var(--teal-light);padding:6px 16px;border-radius:50px;font-size:.72rem;color:var(--teal-dark);font-weight:400}
+
+/* ===== CLINIC ===== */
+.clinic{background:var(--cream)}
+.clinic-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.clinic-item{height:200px;background:var(--teal-light);border-radius:8px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;transition:all .3s}
+.clinic-item:hover{transform:scale(1.02)}
+.clinic-item:first-child{grid-column:span 2;height:280px}
+.clinic-item-label{position:absolute;bottom:16px;left:16px;background:rgba(255,255,255,.9);backdrop-filter:blur(8px);padding:6px 16px;border-radius:4px;font-size:.72rem;color:var(--black);font-weight:400;letter-spacing:.05em}
+.clinic-placeholder{color:var(--teal);opacity:.2;font-size:2rem}
+
+/* ===== ACCESS ===== */
+.access{background:var(--white)}
+.access-inner{display:grid;grid-template-columns:1fr 1fr;gap:64px}
+.access-map{height:400px;background:var(--teal-light);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--teal);opacity:.3;font-size:1.2rem}
+.access-info h3{font-size:1.1rem;font-weight:500;margin-bottom:24px}
+.access-table{width:100%}
+.access-table tr{border-bottom:1px solid var(--border)}
+.access-table th{text-align:left;padding:14px 0;font-size:.8rem;font-weight:400;color:var(--gray);width:100px;vertical-align:top}
+.access-table td{padding:14px 0;font-size:.85rem;font-weight:300}
+.access-schedule{margin-top:32px}
+.access-schedule h4{font-size:.85rem;font-weight:500;margin-bottom:12px}
+.schedule-table{width:100%;border-collapse:collapse;text-align:center;font-size:.8rem}
+.schedule-table th{padding:8px 4px;font-weight:400;color:var(--gray);border-bottom:1px solid var(--border)}
+.schedule-table td{padding:8px 4px;font-weight:300}
+.schedule-table .sat{color:var(--teal)}
+.schedule-table .sun{color:#c44}
+.schedule-closed{font-size:.75rem;color:var(--gray);margin-top:8px;font-weight:300}
+
+/* ===== NEWS ===== */
+.news{background:var(--cream)}
+.news-list{max-width:800px;margin:0 auto}
+.news-item{display:flex;gap:24px;padding:20px 0;border-bottom:1px solid var(--border);transition:opacity .3s}
+.news-item:hover{opacity:.7}
+.news-date{font-family:'Cormorant Garamond',serif;font-size:.85rem;color:var(--gray);flex-shrink:0;width:100px}
+.news-tag{display:inline-block;background:var(--teal-light);color:var(--teal-dark);padding:2px 12px;border-radius:50px;font-size:.65rem;font-weight:400;flex-shrink:0}
+.news-title{font-size:.88rem;font-weight:400;flex:1}
+
+/* ===== CTA ===== */
+.cta{background:linear-gradient(135deg,var(--teal),var(--teal-dark));color:var(--white);text-align:center;padding:80px 32px;position:relative;overflow:hidden}
+.cta::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='40' cy='40' r='30' fill='none' stroke='%23fff' stroke-opacity='0.04' stroke-width='1'/%3E%3C/svg%3E")}
+.cta h2{font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,3vw,2.4rem);font-weight:400;margin-bottom:12px;position:relative}
+.cta p{font-size:.9rem;opacity:.8;margin-bottom:32px;font-weight:300;position:relative}
+.cta .btn-white{display:inline-flex;align-items:center;gap:8px;background:var(--white);color:var(--teal-dark);padding:16px 48px;border-radius:50px;font-size:.85rem;font-weight:500;transition:all .3s;position:relative}
+.cta .btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.cta-tel{margin-top:24px;font-size:1.4rem;font-weight:500;position:relative;letter-spacing:.05em}
+.cta-tel small{display:block;font-size:.7rem;font-weight:300;opacity:.7;margin-top:4px}
+
+/* ===== FOOTER ===== */
+.footer{background:var(--black);color:rgba(255,255,255,.6);padding:64px 0 32px}
+.footer-inner{max-width:1200px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px}
+.footer-brand{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--white);letter-spacing:.08em;margin-bottom:16px}
+.footer-info{font-size:.78rem;line-height:2}
+.footer-nav h4{font-size:.75rem;color:var(--white);margin-bottom:12px;font-weight:400;letter-spacing:.1em}
+.footer-nav a{display:block;font-size:.78rem;padding:4px 0;transition:color .3s}
+.footer-nav a:hover{color:var(--teal)}
+.footer-copy{text-align:center;margin-top:48px;padding-top:24px;border-top:1px solid rgba(255,255,255,.08);font-size:.7rem;color:rgba(255,255,255,.3)}
+.footer-demo{text-align:center;margin-top:8px;font-size:.6rem;color:rgba(255,255,255,.15)}
+
+/* ===== ANIMATIONS ===== */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:960px){
+  .hero-bg{display:none}
+  .concept-inner,.doctor-inner,.access-inner{grid-template-columns:1fr}
+  .services-grid{grid-template-columns:1fr}
+  .clinic-grid{grid-template-columns:1fr 1fr}
+  .clinic-item:first-child{grid-column:span 1;height:200px}
+  .footer-inner{grid-template-columns:1fr}
+  .nav-links,.nav-tel{display:none}
+}
+@media(max-width:640px){
+  .hero-buttons{flex-direction:column}
+  .concept-values{flex-direction:column;gap:16px}
+  .clinic-grid{grid-template-columns:1fr}
+  .hero-info{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#top" class="nav-logo">
+      <div class="nav-logo-icon">L</div>
+      <div>
+        <div class="nav-logo-text">LUMIERE DENTAL</div>
+        <div class="nav-logo-sub">ルミエール歯科クリニック</div>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="#concept">コンセプト</a>
+      <a href="#services">診療案内</a>
+      <a href="#doctor">医師紹介</a>
+      <a href="#clinic">院内紹介</a>
+      <a href="#access">アクセス</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:20px">
+      <div class="nav-tel"><small>ご予約・お問い合わせ</small>03-1234-5678</div>
+      <a href="#cta" class="nav-reserve">WEB予約</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-bg">
+    <div class="hero-bg-circle"></div>
+    <div class="hero-bg-circle"></div>
+    <div class="hero-bg-circle"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-label">Lumiere Dental Clinic</div>
+    <h1>笑顔が輝く、<br><em>やさしい</em>歯科医療を。</h1>
+    <p class="hero-sub">患者さま一人ひとりに寄り添い、丁寧な説明と痛みの少ない治療で、安心して通える歯科医院を目指しています。</p>
+    <div class="hero-buttons">
+      <a href="#cta" class="btn-teal">WEB予約はこちら →</a>
+      <a href="#services" class="btn-outline">診療案内を見る</a>
+    </div>
+  </div>
+  <div class="hero-info">
+    <div class="hero-info-item">土日診療対応</div>
+    <div class="hero-info-item">駅徒歩3分</div>
+    <div class="hero-info-item">キッズスペース完備</div>
+    <div class="hero-info-item">個室診療室あり</div>
+  </div>
+</section>
+
+<!-- CONCEPT -->
+<section class="concept section" id="concept">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-en serif">Concept</div>
+      <div class="section-jp">コンセプト</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="concept-inner">
+      <div class="concept-visual reveal">
+        <div class="concept-visual-text">Gentle<br>Care</div>
+      </div>
+      <div class="concept-text reveal">
+        <h2>一生涯、ご自身の歯で<br><em>豊かに暮らす</em>ために。</h2>
+        <p>ルミエール歯科クリニックは「予防」を軸にした歯科医療を提供しています。悪くなってから治すのではなく、悪くならないための環境づくりを大切にしています。</p>
+        <p>最新のデジタル設備と確かな技術で、患者さまの負担を最小限にしながら、最善の結果を追求します。</p>
+        <div class="concept-values">
+          <div class="concept-value"><div class="concept-value-num serif">15+</div><div class="concept-value-label">年の実縞</div></div>
+          <div class="concept-value"><div class="concept-value-num serif">8,000+</div><div class="concept-value-label">累計患者数</div></div>
+          <div class="concept-value"><div class="concept-value-num serif">98%</div><div class="concept-value-label">患者満足度</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services section" id="services">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-en serif">Services</div>
+      <div class="section-jp">診療案内</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-visual"><div class="service-icon">🦷</div></div>
+        <div class="service-body">
+          <h3>一般歯科</h3>
+          <p>虫歯・歯周病治療を中心に、できるだけ歯を残す保存治療を行います。痛みの少ない麻酔技術で安心の治療を。</p>
+          <a href="#" class="service-link">詳しく見る →</a>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-visual" style="background:var(--warm)"><div class="service-icon">✨</div></div>
+        <div class="service-body">
+          <h3>審美歯科</h3>
+          <p>セラミック治療・ホワイトニングで美しい口元を実現。見た目だけでなく機能面も考慮した治療をご提案します。</p>
+          <a href="#" class="service-link">詳しく見る →</a>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-visual" style="background:#eef0f5"><div class="service-icon">😁</div></div>
+        <div class="service-body">
+          <h3>矯正歯科</h3>
+          <p>マウスピース矯正（インビザライン）から従来のワイヤー矯正まで。目立たない矯正治療に対応しています。</p>
+          <a href="#" class="service-link">詳しく見る →</a>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-visual" style="background:#f0f5ee"><div class="service-icon">🔩</div></div>
+        <div class="service-body">
+          <h3>インプラント</h3>
+          <p>CT撮影による精密な診断のもと、安全性の高いインプラント治療を提供。10年保証付きで安心です。</p>
+          <a href="#" class="service-link">詳しく見る →</a>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-visual" style="background:#fdf0f0"><div class="service-icon">👶</div></div>
+        <div class="service-body">
+          <h3>小児歯科</h3>
+          <p>お子さまが楽しく通えるよう、キッズスペースを完備。フッ素塗布やシーラントで予防ケアも充実。</p>
+          <a href="#" class="service-link">詳しく見る →</a>
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-visual" style="background:var(--teal-light)"><div class="service-icon">🛡️</div></div>
+        <div class="service-body">
+          <h3>予防歯科</h3>
+          <p>定期検診・クリーニング・ブラッシング指導で、虫歯や歯周病を未然に防ぎます。健康な口腔環境を維持。</p>
+          <a href="#" class="service-link">詳しく見る →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOCTOR -->
+<section class="doctor section" id="doctor">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-en serif">Doctor</div>
+      <div class="section-jp">医師紹介</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="doctor-inner">
+      <div class="doctor-photo reveal">
+        <div class="doctor-photo-placeholder">
+          <div class="icon">👨‍⚕️</div>
+          <p>DOCTOR PHOTO</p>
+        </div>
+      </div>
+      <div class="doctor-info reveal">
+        <div class="section-en serif" style="font-size:1rem;margin-bottom:4px">Director</div>
+        <h2 class="serif">院長 中村 光一</h2>
+        <div class="title">Koichi Nakamura D.D.S.</div>
+        <div class="greeting">
+          <p>はじめまして、院長の中村です。</p>
+          <p>私は「患者さまの歯を一本でも多く残したい」という想いで、15年以上にわたり歯科医療に携わってまいりました。</p>
+          <p>最新の治療技術を常にアップデートしながらも、何より大切にしているのは「丁寧な説明」と「患者さまとの対話」です。治療内容を分かりやすくお伝えし、ご納得いただいた上で治療を進めてまいります。</p>
+          <p>お口のことでお悩みがございましたら、お気軽にご相談ください。</p>
+        </div>
+        <div class="doctor-certs">
+          <span class="doctor-cert">東京医科歯科大学卒</span>
+          <span class="doctor-cert">日本口腔インプラント学会 専門医</span>
+          <span class="doctor-cert">日本歯周病学会 認定医</span>
+          <span class="doctor-cert">インビザラインプロバイダー</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLINIC -->
+<section class="clinic section" id="clinic">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-en serif">Clinic</div>
+      <div class="section-jp">院内紹介</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="clinic-grid reveal">
+      <div class="clinic-item"><div class="clinic-placeholder">📷</div><div class="clinic-item-label">受付・待合室</div></div>
+      <div class="clinic-item" style="background:var(--warm)"><div class="clinic-placeholder">📷</div><div class="clinic-item-label">診療室</div></div>
+      <div class="clinic-item" style="background:#eef0f5"><div class="clinic-placeholder">📷</div><div class="clinic-item-label">個室診療室</div></div>
+      <div class="clinic-item" style="background:#f0f5ee"><div class="clinic-placeholder">📷</div><div class="clinic-item-label">キッズスペース</div></div>
+      <div class="clinic-item" style="background:var(--teal-light)"><div class="clinic-placeholder">📷</div><div class="clinic-item-label">CT・レントゲン室</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ACCESS -->
+<section class="access section" id="access">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-en serif">Access</div>
+      <div class="section-jp">アクセス・診療時間</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="access-inner">
+      <div class="access-map reveal">Google Map</div>
+      <div class="access-info reveal">
+        <h3>ルミエール歯科クリニック</h3>
+        <table class="access-table">
+          <tr><th>住所</th><td>〒150-0001<br>東京都渋谷区神宮前3-15-8 ルミエールビル2F</td></tr>
+          <tr><th>電話</th><td>03-1234-5678</td></tr>
+          <tr><th>最寄駅</th><td>東京メトロ 表参道駅 A2出口 徒歩3分</td></tr>
+          <tr><th>駐車場</th><td>提携駐車場あり（1時間無料）</td></tr>
+        </table>
+        <div class="access-schedule">
+          <h4>診療時間</h4>
+          <table class="schedule-table">
+            <tr><th></th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th class="sat">土</th><th class="sun">日</th></tr>
+            <tr><td>9:30-13:00</td><td>○</td><td>○</td><td>○</td><td>—</td><td>○</td><td class="sat">○</td><td class="sun">○</td></tr>
+            <tr><td>14:30-19:00</td><td>○</td><td>○</td><td>○</td><td>—</td><td>○</td><td class="sat">△</td><td class="sun">△</td></tr>
+          </table>
+          <div class="schedule-closed">休診日：木曜・祝日 ／ △ 土日午後は14:30〜17:00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section class="news section" id="news">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-en serif">News</div>
+      <div class="section-jp">お知らせ</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="news-list reveal">
+      <a href="#" class="news-item"><span class="news-date">2026.04.01</span><span class="news-tag">お知らせ</span><span class="news-title">GW期間中の診療スケジュールについて</span></a>
+      <a href="#" class="news-item"><span class="news-date">2026.03.15</span><span class="news-tag">新着</span><span class="news-title">マウスピース矯正（インビザライン）の無料相談会を開催します</span></a>
+      <a href="#" class="news-item"><span class="news-date">2026.03.01</span><span class="news-tag">お知らせ</span><span class="news-title">新しいCT撮影装置を導入しました</span></a>
+      <a href="#" class="news-item"><span class="news-date">2026.02.10</span><span class="news-tag">コラム</span><span class="news-title">歯周病と全身疾患の関係について</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="cta">
+  <h2 class="serif reveal">ご予約・お問い合わせ</h2>
+  <p class="reveal">お電話またはWEBからご予約いただけます。</p>
+  <a href="#" class="btn-white reveal" onclick="return false;">WEB予約はこちら →</a>
+  <div class="cta-tel reveal">03-1234-5678<small>受付時間 9:30〜19:00（木・祝休診）</small></div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand serif">LUMIERE DENTAL CLINIC</div>
+      <div class="footer-info">
+        〒150-0001 東京都渋谷区神宮前3-15-8<br>
+        TEL: 03-1234-5678<br>
+        診療時間: 9:30〜19:00（木・祝休診）
+      </div>
+    </div>
+    <div class="footer-nav">
+      <h4>MENU</h4>
+      <a href="#concept">コンセプト</a>
+      <a href="#services">診療案内</a>
+      <a href="#doctor">医師紹介</a>
+      <a href="#clinic">院内紹介</a>
+      <a href="#access">アクセス</a>
+    </div>
+    <div class="footer-nav">
+      <h4>SERVICES</h4>
+      <a href="#">一般歯科</a>
+      <a href="#">審美歯科</a>
+      <a href="#">矯正歯科</a>
+      <a href="#">インプラント</a>
+      <a href="#">小児歯科</a>
+      <a href="#">予防歯科</a>
+    </div>
+  </div>
+  <div class="footer-copy">&copy; 2026 LUMIERE DENTAL CLINIC. All Rights Reserved.</div>
+  <div class="footer-demo">※ これはポートフォリオ用のデモページです。実在する医療機関ではありません。</div>
+</footer>
+
+<script>
+// Reveal on scroll
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
