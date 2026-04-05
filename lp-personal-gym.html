@@ -3,493 +3,546 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BLAZE FITNESS | パーソナルジム</title>
+<title>FORGE BODY | 完全個室パーソナルジム</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#c9a84c;--gold-light:#e8d48b;--gold-dark:#a07c2a;--black:#0a0a0a;--dark:#111;--dark2:#1a1a1a;--dark3:#222;--white:#fff;--gray:#999;--red:#e63946}
 html{scroll-behavior:smooth;font-size:16px}
-body{font-family:'Helvetica Neue',Arial,'Hiragino Kaku Gothic ProN','Hiragino Sans',Meiryo,sans-serif;color:#333;line-height:1.7;overflow-x:hidden}
-img{max-width:100%;height:auto}
+body{font-family:'Noto Sans JP','Helvetica Neue',sans-serif;color:var(--white);background:var(--black);line-height:1.7;overflow-x:hidden}
 a{text-decoration:none;color:inherit}
 
-/* ===== Utility ===== */
-.container{max-width:1100px;margin:0 auto;padding:0 20px}
-.section{padding:80px 0}
-.section-title{text-align:center;font-size:2rem;font-weight:800;margin-bottom:12px;letter-spacing:.05em}
-.section-sub{text-align:center;font-size:.95rem;color:#888;margin-bottom:48px}
-.accent{color:#e63946}
-.btn{display:inline-block;padding:18px 48px;border-radius:50px;font-size:1.05rem;font-weight:700;letter-spacing:.08em;transition:all .3s;cursor:pointer;border:none}
-.btn-primary{background:linear-gradient(135deg,#e63946,#ff6b6b);color:#fff;box-shadow:0 8px 24px rgba(230,57,70,.35)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(230,57,70,.45)}
-.btn-outline{border:2px solid #e63946;color:#e63946;background:transparent}
-.btn-outline:hover{background:#e63946;color:#fff}
+/* ===== NAV ===== */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 0;transition:all .4s}
+.nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);padding:10px 0;box-shadow:0 2px 20px rgba(0,0,0,.5)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Oswald',sans-serif;font-size:1.6rem;font-weight:700;letter-spacing:.15em;color:var(--gold)}
+.nav-links{display:flex;gap:32px;align-items:center}
+.nav-links a{font-size:.8rem;letter-spacing:.1em;color:var(--gray);transition:color .3s;font-weight:500}
+.nav-links a:hover{color:var(--gold)}
+.nav-cta{background:var(--gold);color:var(--black);padding:10px 28px;border-radius:2px;font-size:.8rem;font-weight:700;letter-spacing:.08em;transition:all .3s}
+.nav-cta:hover{background:var(--gold-light);transform:translateY(-1px)}
 
-/* ===== Hero ===== */
-.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0d0d0d 0%,#1a1a2e 100%);color:#fff;text-align:center;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 40%,rgba(230,57,70,.15) 0%,transparent 50%),radial-gradient(circle at 70% 60%,rgba(255,107,107,.1) 0%,transparent 50%);animation:heroGlow 8s ease-in-out infinite alternate}
-@keyframes heroGlow{0%{transform:translate(0,0)}100%{transform:translate(-3%,-3%)}}
-.hero-content{position:relative;z-index:2;padding:20px}
-.hero-badge{display:inline-block;padding:8px 24px;border:1px solid rgba(230,57,70,.6);border-radius:50px;font-size:.8rem;letter-spacing:.15em;color:#e63946;margin-bottom:24px;text-transform:uppercase}
-.hero h1{font-size:clamp(2.2rem,6vw,4rem);font-weight:900;line-height:1.2;margin-bottom:16px;letter-spacing:.02em}
-.hero h1 span{background:linear-gradient(135deg,#e63946,#ff6b6b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero p{font-size:1.1rem;color:rgba(255,255,255,.7);margin-bottom:40px;max-width:540px;margin-left:auto;margin-right:auto}
-.hero-stats{display:flex;justify-content:center;gap:48px;margin-top:48px;flex-wrap:wrap}
-.hero-stat-num{font-size:2.4rem;font-weight:900;color:#e63946}
-.hero-stat-label{font-size:.8rem;color:rgba(255,255,255,.5);margin-top:4px}
-.scroll-indicator{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);animation:scrollBounce 2s infinite}
-@keyframes scrollBounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(10px)}}
-.scroll-indicator span{display:block;width:2px;height:40px;background:linear-gradient(to bottom,rgba(255,255,255,.4),transparent);margin:0 auto}
+/* ===== HERO ===== */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;background:var(--black)}
+.hero-bg{position:absolute;inset:0}
+.hero-bg::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,10,10,.97) 0%,rgba(10,10,10,.85) 40%,rgba(201,168,76,.08) 100%)}
+.hero-bg::after{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a84c' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero-particles{position:absolute;inset:0;overflow:hidden}
+.particle{position:absolute;width:2px;height:2px;background:var(--gold);border-radius:50%;opacity:0;animation:particleFloat linear infinite}
+@keyframes particleFloat{0%{opacity:0;transform:translateY(100vh) scale(0)}10%{opacity:.6}90%{opacity:.6}100%{opacity:0;transform:translateY(-10vh) scale(1)}}
+.hero-content{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:140px 24px 80px}
+.hero-top-label{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(201,168,76,.3);padding:8px 20px;margin-bottom:32px;font-size:.7rem;letter-spacing:.2em;color:var(--gold);text-transform:uppercase}
+.hero-top-label::before{content:'';width:8px;height:8px;background:var(--gold);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.6)}}
+.hero h1{font-family:'Oswald',sans-serif;font-size:clamp(3rem,8vw,6rem);font-weight:700;line-height:1;letter-spacing:.04em;margin-bottom:8px;text-transform:uppercase}
+.hero h1 .gold{color:var(--gold)}
+.hero h1 .outline{-webkit-text-stroke:1px var(--white);color:transparent}
+.hero-sub{font-size:clamp(1rem,2.5vw,1.4rem);font-weight:400;color:rgba(255,255,255,.6);margin-bottom:48px;letter-spacing:.08em}
+.hero-buttons{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:64px}
+.btn-gold{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--black);padding:18px 48px;font-size:.9rem;font-weight:700;letter-spacing:.1em;transition:all .4s;position:relative;overflow:hidden}
+.btn-gold::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);transition:left .6s}
+.btn-gold:hover::before{left:100%}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(201,168,76,.4)}
+.btn-outline-w{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.3);color:var(--white);padding:18px 48px;font-size:.9rem;font-weight:500;letter-spacing:.1em;transition:all .3s}
+.btn-outline-w:hover{border-color:var(--gold);color:var(--gold)}
+.hero-stats{display:flex;gap:64px;flex-wrap:wrap}
+.hero-stat{position:relative;padding-left:20px}
+.hero-stat::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--gold),transparent)}
+.hero-stat-num{font-family:'Oswald',sans-serif;font-size:3rem;font-weight:700;color:var(--gold);line-height:1}
+.hero-stat-num span{font-size:1.2rem}
+.hero-stat-label{font-size:.75rem;color:var(--gray);letter-spacing:.1em;margin-top:4px}
+.hero-scroll{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px}
+.hero-scroll span{font-size:.65rem;letter-spacing:.2em;color:var(--gray);text-transform:uppercase;writing-mode:vertical-rl}
+.hero-scroll::after{content:'';width:1px;height:48px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollLine 2s infinite}
+@keyframes scrollLine{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 
-/* ===== Problems ===== */
-.problems{background:#fafafa}
-.problem-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;max-width:900px;margin:0 auto}
-.problem-item{background:#fff;border-radius:16px;padding:32px 28px;box-shadow:0 4px 20px rgba(0,0,0,.06);border-left:4px solid #e63946;transition:transform .3s}
-.problem-item:hover{transform:translateY(-4px)}
-.problem-item p{font-size:1.05rem;font-weight:600}
-.problem-item p::before{content:'😰 ';font-size:1.2rem}
+/* ===== SECTION BASE ===== */
+.section{padding:100px 0;position:relative}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+.section-label{font-family:'Oswald',sans-serif;font-size:.75rem;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;margin-bottom:12px}
+.section-title{font-family:'Oswald',sans-serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:700;letter-spacing:.05em;line-height:1.2;margin-bottom:20px;text-transform:uppercase}
+.section-desc{font-size:.9rem;color:var(--gray);max-width:600px;line-height:2}
 
-/* ===== Features ===== */
-.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:32px}
-.feature-card{background:#fff;border-radius:20px;padding:40px 32px;box-shadow:0 8px 32px rgba(0,0,0,.08);text-align:center;transition:transform .3s}
-.feature-card:hover{transform:translateY(-6px)}
-.feature-icon{width:72px;height:72px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 20px;background:linear-gradient(135deg,#fff0f0,#ffe0e0)}
-.feature-card h3{font-size:1.2rem;font-weight:700;margin-bottom:12px}
-.feature-card p{font-size:.92rem;color:#666;line-height:1.8}
+/* ===== MEDIA BAR ===== */
+.media-bar{background:var(--dark);border-top:1px solid rgba(201,168,76,.15);border-bottom:1px solid rgba(201,168,76,.15);padding:24px 0;overflow:hidden}
+.media-inner{display:flex;align-items:center;justify-content:center;gap:48px;flex-wrap:wrap;max-width:1200px;margin:0 auto;padding:0 24px}
+.media-item{font-family:'Oswald',sans-serif;font-size:1rem;letter-spacing:.15em;color:rgba(255,255,255,.25);text-transform:uppercase;white-space:nowrap}
 
-/* ===== Before/After ===== */
-.results{background:linear-gradient(135deg,#0d0d0d,#1a1a2e);color:#fff}
-.results .section-sub{color:rgba(255,255,255,.5)}
-.results-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;max-width:960px;margin:0 auto}
-.result-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:36px 28px;text-align:center;backdrop-filter:blur(8px)}
-.result-label{font-size:.8rem;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
-.result-name{font-size:1rem;font-weight:600;margin-bottom:16px}
-.result-before{font-size:.9rem;color:rgba(255,255,255,.5);margin-bottom:4px}
-.result-arrow{font-size:1.4rem;margin:8px 0;color:#e63946}
-.result-after{font-size:1.8rem;font-weight:900;color:#e63946}
-.result-period{font-size:.8rem;color:rgba(255,255,255,.4);margin-top:8px}
+/* ===== PROBLEMS ===== */
+.problems{background:var(--dark)}
+.problems-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2px;margin-top:48px}
+.problem-card{background:var(--dark2);padding:40px 32px;position:relative;overflow:hidden;transition:all .4s}
+.problem-card:hover{background:var(--dark3)}
+.problem-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--gold);transition:height .4s}
+.problem-card:hover::before{height:100%}
+.problem-num{font-family:'Oswald',sans-serif;font-size:3rem;font-weight:700;color:rgba(201,168,76,.1);position:absolute;top:16px;right:24px;line-height:1}
+.problem-card p{font-size:1rem;font-weight:500;line-height:1.8;position:relative}
+.problem-card p::before{content:'—';color:var(--gold);margin-right:12px}
 
-/* ===== Pricing ===== */
-.pricing-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px;max-width:960px;margin:0 auto}
-.price-card{background:#fff;border-radius:20px;padding:40px 32px;box-shadow:0 8px 32px rgba(0,0,0,.08);text-align:center;position:relative;overflow:hidden;transition:transform .3s}
-.price-card:hover{transform:translateY(-4px)}
-.price-card.popular{border:3px solid #e63946}
-.price-card.popular::before{content:'人気 No.1';position:absolute;top:16px;right:-32px;background:#e63946;color:#fff;padding:4px 40px;font-size:.75rem;font-weight:700;transform:rotate(45deg);letter-spacing:.05em}
-.price-plan{font-size:1rem;font-weight:700;color:#888;margin-bottom:8px}
-.price-amount{font-size:2.8rem;font-weight:900;margin-bottom:4px}
-.price-amount span{font-size:1rem;font-weight:400;color:#888}
-.price-period{font-size:.85rem;color:#aaa;margin-bottom:24px}
-.price-features{list-style:none;text-align:left;margin-bottom:32px}
-.price-features li{padding:8px 0;font-size:.92rem;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;gap:8px}
-.price-features li::before{content:'✓';color:#e63946;font-weight:700;font-size:.85rem}
+/* ===== METHOD ===== */
+.method{background:var(--black);position:relative;overflow:hidden}
+.method::before{content:'FORGE';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Oswald',sans-serif;font-size:clamp(8rem,20vw,16rem);font-weight:700;color:rgba(255,255,255,.015);letter-spacing:.1em;white-space:nowrap;pointer-events:none}
+.method-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:64px}
+.method-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);padding:48px 32px;position:relative;transition:all .5s;overflow:hidden}
+.method-card:hover{border-color:rgba(201,168,76,.3);background:rgba(201,168,76,.03)}
+.method-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity .4s}
+.method-card:hover::after{opacity:1}
+.method-num{font-family:'Oswald',sans-serif;font-size:.75rem;letter-spacing:.3em;color:var(--gold);margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.method-num::after{content:'';flex:1;height:1px;background:rgba(201,168,76,.3)}
+.method-card h3{font-size:1.2rem;font-weight:700;margin-bottom:16px;letter-spacing:.02em}
+.method-card p{font-size:.85rem;color:var(--gray);line-height:1.9}
 
-/* ===== Trainer ===== */
-.trainer{background:#fafafa}
-.trainer-content{display:flex;align-items:center;gap:48px;max-width:900px;margin:0 auto;flex-wrap:wrap}
-.trainer-photo{width:280px;height:340px;border-radius:24px;background:linear-gradient(135deg,#1a1a2e,#2d2d44);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin:0 auto}
-.trainer-photo-placeholder{text-align:center;color:rgba(255,255,255,.6)}
-.trainer-photo-placeholder .icon{font-size:4rem;margin-bottom:12px}
-.trainer-photo-placeholder p{font-size:.8rem}
-.trainer-info{flex:1;min-width:280px}
-.trainer-info h3{font-size:1.5rem;font-weight:800;margin-bottom:8px}
-.trainer-info .title{color:#e63946;font-size:.9rem;font-weight:600;margin-bottom:16px}
-.trainer-info p{font-size:.92rem;color:#555;line-height:1.9;margin-bottom:16px}
-.trainer-certs{display:flex;flex-wrap:wrap;gap:8px}
-.trainer-cert{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:6px 14px;font-size:.78rem;font-weight:600;color:#555}
+/* ===== RESULTS ===== */
+.results{background:var(--dark);position:relative}
+.results::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:64px}
+.result-card{background:var(--dark2);border:1px solid rgba(255,255,255,.05);overflow:hidden;transition:all .4s}
+.result-card:hover{border-color:rgba(201,168,76,.2);transform:translateY(-4px)}
+.result-visual{height:200px;background:linear-gradient(135deg,var(--dark3),var(--dark));display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.result-visual::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,.05),transparent)}
+.result-change{text-align:center}
+.result-before-num{font-family:'Oswald',sans-serif;font-size:1.4rem;color:var(--gray)}
+.result-arrow{color:var(--gold);font-size:1.5rem;margin:4px 0}
+.result-after-num{font-family:'Oswald',sans-serif;font-size:2.4rem;font-weight:700;color:var(--gold)}
+.result-info{padding:24px;display:flex;justify-content:space-between;align-items:center}
+.result-meta .name{font-size:.9rem;font-weight:700}
+.result-meta .detail{font-size:.75rem;color:var(--gray);margin-top:2px}
+.result-badge{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);padding:6px 16px;font-family:'Oswald',sans-serif;font-size:.7rem;letter-spacing:.1em;color:var(--gold)}
 
-/* ===== Voice ===== */
-.voice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px;max-width:960px;margin:0 auto}
-.voice-card{background:#fff;border-radius:20px;padding:32px 28px;box-shadow:0 4px 20px rgba(0,0,0,.06)}
-.voice-header{display:flex;align-items:center;gap:16px;margin-bottom:16px}
-.voice-avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#ffe0e0,#fff0f0);display:flex;align-items:center;justify-content:center;font-size:1.4rem}
-.voice-meta .name{font-weight:700;font-size:.95rem}
-.voice-meta .detail{font-size:.8rem;color:#888}
-.voice-stars{color:#ffc107;font-size:.9rem;letter-spacing:2px;margin-bottom:12px}
-.voice-text{font-size:.9rem;color:#555;line-height:1.9}
+/* ===== PRICING ===== */
+.pricing{background:var(--black)}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:64px}
+.price-card{background:var(--dark2);padding:48px 32px;position:relative;transition:all .4s}
+.price-card.featured{background:linear-gradient(180deg,rgba(201,168,76,.08),var(--dark2));border-top:2px solid var(--gold)}
+.price-card.featured::before{content:'MOST POPULAR';position:absolute;top:0;left:32px;background:var(--gold);color:var(--black);padding:4px 16px;font-family:'Oswald',sans-serif;font-size:.65rem;letter-spacing:.15em;font-weight:600}
+.price-plan{font-family:'Oswald',sans-serif;font-size:.8rem;letter-spacing:.2em;color:var(--gold);margin-bottom:24px;text-transform:uppercase}
+.price-amount{font-family:'Oswald',sans-serif;font-size:3.5rem;font-weight:700;line-height:1;margin-bottom:4px}
+.price-amount small{font-size:1rem;font-weight:400;color:var(--gray)}
+.price-tax{font-size:.75rem;color:var(--gray);margin-bottom:32px}
+.price-list{list-style:none;margin-bottom:40px}
+.price-list li{padding:12px 0;font-size:.85rem;color:rgba(255,255,255,.7);border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:center;gap:12px}
+.price-list li::before{content:'';width:6px;height:6px;background:var(--gold);flex-shrink:0}
+.price-btn{display:block;text-align:center;padding:16px;font-size:.85rem;font-weight:700;letter-spacing:.1em;transition:all .3s;border:1px solid rgba(255,255,255,.2);color:var(--white)}
+.price-btn:hover{border-color:var(--gold);color:var(--gold)}
+.price-card.featured .price-btn{background:var(--gold);color:var(--black);border-color:var(--gold)}
+.price-card.featured .price-btn:hover{background:var(--gold-light)}
+
+/* ===== VOICE ===== */
+.voice{background:var(--dark)}
+.voice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:64px}
+.voice-card{background:var(--dark2);border:1px solid rgba(255,255,255,.05);padding:40px;position:relative;transition:all .4s}
+.voice-card:hover{border-color:rgba(201,168,76,.2)}
+.voice-card::before{content:'\201C';position:absolute;top:20px;right:32px;font-family:Georgia,serif;font-size:5rem;color:rgba(201,168,76,.1);line-height:1}
+.voice-header{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.voice-avatar{width:48px;height:48px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));display:flex;align-items:center;justify-content:center;font-family:'Oswald',sans-serif;font-size:1rem;font-weight:700;color:var(--black)}
+.voice-name{font-size:.9rem;font-weight:700}
+.voice-detail{font-size:.75rem;color:var(--gray)}
+.voice-text{font-size:.88rem;color:rgba(255,255,255,.7);line-height:2;position:relative}
+.voice-stars{margin-top:16px;color:var(--gold);font-size:.8rem;letter-spacing:4px}
 
 /* ===== FAQ ===== */
-.faq{background:#fafafa}
-.faq-list{max-width:720px;margin:0 auto}
-.faq-item{background:#fff;border-radius:16px;padding:24px 28px;margin-bottom:16px;box-shadow:0 2px 12px rgba(0,0,0,.04);cursor:pointer;transition:box-shadow .3s}
-.faq-item:hover{box-shadow:0 4px 20px rgba(0,0,0,.08)}
-.faq-q{font-weight:700;font-size:1rem;display:flex;justify-content:space-between;align-items:center}
-.faq-q::before{content:'Q.';color:#e63946;font-weight:800;margin-right:8px;flex-shrink:0}
-.faq-q::after{content:'+';font-size:1.4rem;color:#ccc;transition:transform .3s;flex-shrink:0;margin-left:12px}
-.faq-item.open .faq-q::after{transform:rotate(45deg);color:#e63946}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;font-size:.9rem;color:#666;line-height:1.9}
-.faq-item.open .faq-a{max-height:300px;padding-top:16px}
+.faq{background:var(--black)}
+.faq-list{margin-top:64px;max-width:800px}
+.faq-item{border-bottom:1px solid rgba(255,255,255,.08);cursor:pointer}
+.faq-q{padding:24px 0;font-size:1rem;font-weight:500;display:flex;justify-content:space-between;align-items:center;transition:color .3s}
+.faq-q:hover{color:var(--gold)}
+.faq-q::after{content:'+';font-family:'Oswald',sans-serif;font-size:1.5rem;color:var(--gold);transition:transform .3s}
+.faq-item.open .faq-q::after{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease;font-size:.88rem;color:var(--gray);line-height:2}
+.faq-item.open .faq-a{max-height:300px;padding-bottom:24px}
 
 /* ===== CTA ===== */
-.cta{background:linear-gradient(135deg,#e63946,#ff6b6b);color:#fff;text-align:center;padding:80px 20px}
-.cta h2{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;margin-bottom:12px}
-.cta p{font-size:1rem;opacity:.9;margin-bottom:36px;max-width:500px;margin-left:auto;margin-right:auto}
-.cta .btn{background:#fff;color:#e63946;font-weight:800}
-.cta .btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.2)}
-.cta-note{font-size:.8rem;opacity:.7;margin-top:16px}
+.cta-section{position:relative;padding:120px 0;overflow:hidden}
+.cta-section::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--black),rgba(201,168,76,.12),var(--black))}
+.cta-section::after{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23c9a84c' fill-opacity='0.03'%3E%3Cpath d='M20 20.5V18H0v-2h20v-2l2 3.5-2 3z'/%3E%3C/g%3E%3C/svg%3E")}
+.cta-content{position:relative;z-index:2;text-align:center;max-width:700px;margin:0 auto}
+.cta-content h2{font-family:'Oswald',sans-serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:16px}
+.cta-content h2 .gold{color:var(--gold)}
+.cta-content p{font-size:.95rem;color:var(--gray);margin-bottom:40px;line-height:2}
+.cta-urgency{display:inline-flex;align-items:center;gap:12px;background:rgba(230,57,70,.1);border:1px solid rgba(230,57,70,.3);padding:12px 24px;margin-bottom:32px;font-size:.8rem;color:var(--red);letter-spacing:.05em}
+.cta-urgency::before{content:'';width:8px;height:8px;background:var(--red);border-radius:50%;animation:pulse 1.5s infinite}
 
-/* ===== Footer ===== */
-.footer{background:#0d0d0d;color:rgba(255,255,255,.5);text-align:center;padding:40px 20px;font-size:.8rem}
-.footer-brand{font-size:1.2rem;font-weight:800;color:#fff;margin-bottom:8px;letter-spacing:.1em}
+/* ===== FOOTER ===== */
+.footer{background:var(--dark);padding:64px 0 32px;border-top:1px solid rgba(255,255,255,.05)}
+.footer-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:40px}
+.footer-brand{font-family:'Oswald',sans-serif;font-size:1.4rem;font-weight:700;color:var(--gold);letter-spacing:.15em;margin-bottom:16px}
+.footer-info{font-size:.8rem;color:var(--gray);line-height:2}
+.footer-links{display:flex;gap:32px}
+.footer-links a{font-size:.8rem;color:var(--gray);transition:color .3s}
+.footer-links a:hover{color:var(--gold)}
+.footer-copy{text-align:center;padding-top:32px;margin-top:32px;border-top:1px solid rgba(255,255,255,.05);font-size:.7rem;color:rgba(255,255,255,.3)}
+.footer-demo{text-align:center;margin-top:8px;font-size:.65rem;color:rgba(255,255,255,.15)}
 
-/* ===== Floating CTA ===== */
-.floating-cta{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:100;opacity:0;pointer-events:none;transition:opacity .4s}
-.floating-cta.visible{opacity:1;pointer-events:auto}
-.floating-cta .btn{padding:14px 36px;font-size:.95rem;box-shadow:0 8px 28px rgba(230,57,70,.4)}
+/* ===== FLOATING CTA ===== */
+.floating-cta{position:fixed;bottom:0;left:0;right:0;z-index:999;background:rgba(10,10,10,.95);backdrop-filter:blur(16px);border-top:1px solid rgba(201,168,76,.2);padding:12px 24px;display:flex;align-items:center;justify-content:center;gap:24px;transform:translateY(100%);transition:transform .4s}
+.floating-cta.visible{transform:translateY(0)}
+.floating-cta-text{font-size:.85rem;font-weight:500}
+.floating-cta-text .gold{color:var(--gold)}
+.floating-cta .btn-gold{padding:12px 36px;font-size:.8rem}
 
-/* ===== Animations ===== */
-.fade-up{opacity:0;transform:translateY(30px);transition:opacity .7s,transform .7s}
-.fade-up.visible{opacity:1;transform:translateY(0)}
+/* ===== ANIMATIONS ===== */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s,transform .8s}
+.reveal.visible{opacity:1;transform:translateY(0)}
 
-/* ===== Responsive ===== */
-@media(max-width:768px){
-  .section{padding:56px 0}
-  .section-title{font-size:1.6rem}
-  .hero-stats{gap:28px}
-  .hero-stat-num{font-size:1.8rem}
-  .trainer-content{flex-direction:column;text-align:center}
-  .trainer-certs{justify-content:center}
-  .price-features{padding:0 8px}
+/* ===== RESPONSIVE ===== */
+@media(max-width:960px){
+  .method-grid,.results-grid,.pricing-grid{grid-template-columns:1fr}
+  .voice-grid{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .hero-stats{gap:32px}
+  .hero h1{font-size:clamp(2.4rem,7vw,4rem)}
+  .footer-inner{flex-direction:column}
+}
+@media(max-width:640px){
+  .hero-buttons{flex-direction:column}
+  .btn-gold,.btn-outline-w{text-align:center;justify-content:center}
+  .problems-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
-<!-- ===== HERO ===== -->
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">FORGE BODY</div>
+    <div class="nav-links">
+      <a href="#method">METHOD</a>
+      <a href="#results">RESULTS</a>
+      <a href="#pricing">PRICING</a>
+      <a href="#faq">FAQ</a>
+      <a href="#cta" class="nav-cta">無料体験</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
 <section class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="hero-particles" id="particles"></div>
   <div class="hero-content">
-    <div class="hero-badge">Results Guaranteed</div>
-    <h1>2ヶ月で理想の体へ。<br><span>人生最後のダイエット</span></h1>
-    <p>完全個室・完全マンツーマン指導。<br>あなた専用のプログラムで確実に結果を出します。</p>
-    <a href="#cta" class="btn btn-primary">無料カウンセリングを予約する</a>
+    <div class="hero-top-label">Now Accepting New Members</div>
+    <h1>YOUR BODY.<br><span class="gold">YOUR RULES.</span></h1>
+    <p class="hero-sub">完全個室 × 科学的メソッド。2ヶ月で、人生が変わる体験を。</p>
+    <div class="hero-buttons">
+      <a href="#cta" class="btn-gold">無料カウンセリング予約 →</a>
+      <a href="#method" class="btn-outline-w">メソッドを見る</a>
+    </div>
     <div class="hero-stats">
       <div class="hero-stat">
-        <div class="hero-stat-num">98<span style="font-size:1.2rem">%</span></div>
+        <div class="hero-stat-num" data-target="98">0<span>%</span></div>
         <div class="hero-stat-label">目標達成率</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-num">2,400<span style="font-size:1.2rem">+</span></div>
-        <div class="hero-stat-label">累計指導実縞</div>
+        <div class="hero-stat-num" data-target="2400">0<span>+</span></div>
+        <div class="hero-stat-label">累計指導実績</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-num">-8.5<span style="font-size:1.2rem">kg</span></div>
-        <div class="hero-stat-label">平均減量</div>
+        <div class="hero-stat-num" data-target="8.5" data-prefix="-">0<span>kg</span></div>
+        <div class="hero-stat-label">平均減量（2ヶ月）</div>
       </div>
     </div>
   </div>
-  <div class="scroll-indicator"><span></span></div>
+  <div class="hero-scroll"><span>SCROLL</span></div>
 </section>
 
-<!-- ===== PROBLEMS ===== -->
+<!-- MEDIA BAR -->
+<div class="media-bar">
+  <div class="media-inner">
+    <div class="media-item">TARZAN</div>
+    <div class="media-item">an・an</div>
+    <div class="media-item">Men's Health</div>
+    <div class="media-item">VOGUE</div>
+    <div class="media-item">Forbes JAPAN</div>
+    <div class="media-item">日経トレンディ</div>
+  </div>
+</div>
+
+<!-- PROBLEMS -->
 <section class="problems section" id="problems">
   <div class="container">
-    <div class="section-title fade-up">こんなお悩み<span class="accent">ありませんか？</span></div>
-    <div class="section-sub fade-up">一つでも当てはまるなら、BLAZEがお力になれます</div>
-    <div class="problem-list">
-      <div class="problem-item fade-up"><p>何度ダイエットしてもリバウンドしてしまう</p></div>
-      <div class="problem-item fade-up"><p>ジムに通っても正しいフォームが分からない</p></div>
-      <div class="problem-item fade-up"><p>食事制限が続かず、すぐ挫折してしまう</p></div>
-      <div class="problem-item fade-up"><p>年齢とともに体型の崩れが気になってきた</p></div>
-      <div class="problem-item fade-up"><p>一人でのトレーニングにモチベーションが保てない</p></div>
-      <div class="problem-item fade-up"><p>結婚式・同窓会までに確実に痩せたい</p></div>
+    <div class="section-label reveal">Problem</div>
+    <div class="section-title reveal">こんな経験、<br>ありませんか？</div>
+    <div class="problems-grid">
+      <div class="problem-card reveal"><div class="problem-num">01</div><p>何度ダイエットしてもリバウンドを繰り返してしまう</p></div>
+      <div class="problem-card reveal"><div class="problem-num">02</div><p>YouTubeを見て自己流で続けるも、成果が出ない</p></div>
+      <div class="problem-card reveal"><div class="problem-num">03</div><p>大手ジムに通ったが、放置されて結局やめてしまった</p></div>
+      <div class="problem-card reveal"><div class="problem-num">04</div><p>食事制限がストレスで、毎回途中で挫折する</p></div>
+      <div class="problem-card reveal"><div class="problem-num">05</div><p>年齢とともに代謝が落ち、何をしても痩せなくなった</p></div>
+      <div class="problem-card reveal"><div class="problem-num">06</div><p>結婚式・同窓会、期限付きで確実に結果を出したい</p></div>
     </div>
   </div>
 </section>
 
-<!-- ===== FEATURES ===== -->
-<section class="section" id="features">
+<!-- METHOD -->
+<section class="method section" id="method">
   <div class="container">
-    <div class="section-title fade-up">BLAZEが選ばれる<span class="accent">3つの理由</span></div>
-    <div class="section-sub fade-up">科学的根拠に基づいた、結果にこだわるプログラム</div>
-    <div class="features-grid">
-      <div class="feature-card fade-up">
-        <div class="feature-icon">🧬</div>
-        <h3>遺伝子タイプ別プログラム</h3>
-        <p>DNA検査に基づき、糖質代謝型・脂質代謝型など体質に合わせた最適なトレーニングと食事プランを設計。無駄のない効率的なボディメイクを実現します。</p>
+    <div class="section-label reveal">Method</div>
+    <div class="section-title reveal">なぜFORGE BODYは<br>結果を出し続けるのか</div>
+    <div class="section-desc reveal">トレーニング × 栄養学 × 行動科学。<br>3つの専門領域を融合した独自メソッド。</div>
+    <div class="method-grid">
+      <div class="method-card reveal">
+        <div class="method-num">METHOD 01</div>
+        <h3>DNA解析パーソナライズ</h3>
+        <p>遺伝子タイプに基づき、糖質代謝型・脂質代謝型などあなたの体質に最適化されたプログラムを設計。ムダのないトレーニングで最短ルートの結果を実現。</p>
       </div>
-      <div class="feature-card fade-up">
-        <div class="feature-icon">🍽️</div>
-        <h3>毎日の食事サポート</h3>
-        <p>専属の管理栄養士がLINEで毎食アドバイス。「何を食べていいか分からない」を解消し、無理のない食事改善で一生モノの食習慣を身につけます。</p>
+      <div class="method-card reveal">
+        <div class="method-num">METHOD 02</div>
+        <h3>管理栄養士のリアルタイム伴走</h3>
+        <p>専属の管理栄養士がLINEで毎食フィードバック。外食・コンビニ食もカバーする実践的アドバイスで、無理なく食習慣をアップデート。</p>
       </div>
-      <div class="feature-card fade-up">
-        <div class="feature-icon">🔄</div>
-        <h3>リバウンド防止保証</h3>
-        <p>卒業後3ヶ月間の無料フォローアップ付き。月1回のカウンセリングと体組成チェックで、理想の体型を維持するところまでサポートします。</p>
+      <div class="method-card reveal">
+        <div class="method-num">METHOD 03</div>
+        <h3>卒業後リバウンド防止プログラム</h3>
+        <p>コース終了後3ヶ月の無料フォローアップ。月次カウンセリング + 体組成チェックで、手に入れた体型を維持する習慣まで定着させます。</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== RESULTS ===== -->
+<!-- RESULTS -->
 <section class="results section" id="results">
   <div class="container">
-    <div class="section-title fade-up">実績・<span class="accent">ビフォーアフター</span></div>
-    <div class="section-sub fade-up">多くのお客様が目標を達成されています</div>
+    <div class="section-label reveal">Results</div>
+    <div class="section-title reveal">卒業生たちの、<br>リアルな変化。</div>
     <div class="results-grid">
-      <div class="result-card fade-up">
-        <div class="result-label">CASE 01</div>
-        <div class="result-name">T.S 様（30代女性）</div>
-        <div class="result-before">65.2 kg / 体脂肪率 32.4%</div>
-        <div class="result-arrow">▼</div>
-        <div class="result-after">53.8 kg / 24.1%</div>
-        <div class="result-period">2ヶ月コース</div>
+      <div class="result-card reveal">
+        <div class="result-visual">
+          <div class="result-change">
+            <div class="result-before-num">65.2 kg</div>
+            <div class="result-arrow">▼</div>
+            <div class="result-after-num">53.8 kg</div>
+          </div>
+        </div>
+        <div class="result-info">
+          <div class="result-meta"><div class="name">T.S 様</div><div class="detail">30代女性 / 会社員</div></div>
+          <div class="result-badge">2 MONTHS</div>
+        </div>
       </div>
-      <div class="result-card fade-up">
-        <div class="result-label">CASE 02</div>
-        <div class="result-name">K.M 様（40代男性）</div>
-        <div class="result-before">82.6 kg / 体脂肪率 28.7%</div>
-        <div class="result-arrow">▼</div>
-        <div class="result-after">71.3 kg / 18.2%</div>
-        <div class="result-period">3ヶ月コース</div>
+      <div class="result-card reveal">
+        <div class="result-visual">
+          <div class="result-change">
+            <div class="result-before-num">82.6 kg</div>
+            <div class="result-arrow">▼</div>
+            <div class="result-after-num">71.3 kg</div>
+          </div>
+        </div>
+        <div class="result-info">
+          <div class="result-meta"><div class="name">K.M 様</div><div class="detail">40代男性 / 経営者</div></div>
+          <div class="result-badge">3 MONTHS</div>
+        </div>
       </div>
-      <div class="result-card fade-up">
-        <div class="result-label">CASE 03</div>
-        <div class="result-name">A.Y 様（20代女性）</div>
-        <div class="result-before">58.9 kg / 体脂肪率 29.8%</div>
-        <div class="result-arrow">▼</div>
-        <div class="result-after">50.2 kg / 21.5%</div>
-        <div class="result-period">2ヶ月コース</div>
+      <div class="result-card reveal">
+        <div class="result-visual">
+          <div class="result-change">
+            <div class="result-before-num">58.9 kg</div>
+            <div class="result-arrow">▼</div>
+            <div class="result-after-num">50.2 kg</div>
+          </div>
+        </div>
+        <div class="result-info">
+          <div class="result-meta"><div class="name">A.Y 様</div><div class="detail">20代女性 / 看護師</div></div>
+          <div class="result-badge">2 MONTHS</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== PRICING ===== -->
-<section class="section" id="pricing">
+<!-- PRICING -->
+<section class="pricing section" id="pricing">
   <div class="container">
-    <div class="section-title fade-up">料金<span class="accent">プラン</span></div>
-    <div class="section-sub fade-up">入会金 33,000円（税込）→ 今月限定 <strong style="color:#e63946">無料</strong></div>
-    <div class="pricing-cards">
-      <div class="price-card fade-up">
-        <div class="price-plan">集中2ヶ月コース</div>
-        <div class="price-amount">198,000<span>円（税込）</span></div>
-        <div class="price-period">月々 9,900円〜の分割OK</div>
-        <ul class="price-features">
+    <div class="section-label reveal">Pricing</div>
+    <div class="section-title reveal">明瞭な料金体系。</div>
+    <div class="section-desc reveal">入会金 33,000円 → <span style="color:var(--gold);font-weight:700">今月限定 0円</span></div>
+    <div class="pricing-grid">
+      <div class="price-card reveal">
+        <div class="price-plan">Standard 2months</div>
+        <div class="price-amount">198,000<small>円（税込）</small></div>
+        <div class="price-tax">月々 9,900円〜の分割OK</div>
+        <ul class="price-list">
           <li>パーソナルトレーニング 全16回</li>
           <li>食事指導（毎日LINE対応）</li>
           <li>プロテイン1ヶ月分</li>
           <li>ウェア・タオル・シューズ無料</li>
           <li>水素水飲み放題</li>
         </ul>
-        <a href="#cta" class="btn btn-outline">詳しく見る</a>
+        <a href="#cta" class="price-btn">詳細を見る</a>
       </div>
-      <div class="price-card popular fade-up">
-        <div class="price-plan">役底3ヶ月コース</div>
-        <div class="price-amount">278,000<span>円（税込）</span></div>
-        <div class="price-period">月々 12,800円〜の分割OK</div>
-        <ul class="price-features">
+      <div class="price-card featured reveal">
+        <div class="price-plan">Premium 3months</div>
+        <div class="price-amount">278,000<small>円（税込）</small></div>
+        <div class="price-tax">月々 12,800円〜の分割OK</div>
+        <ul class="price-list">
           <li>パーソナルトレーニング 全24回</li>
           <li>食事指導（毎日LINE対応）</li>
-          <li>DNA検査 & 体質別プラン作成</li>
+          <li>DNA検査 & 体質別プラン</li>
           <li>プロテイン3ヶ月分</li>
-          <li>ウェア・タオル・シューズ無料</li>
           <li>卒業後3ヶ月フォロー付き</li>
+          <li>全アメニティ無料</li>
         </ul>
-        <a href="#cta" class="btn btn-primary">無料カウンセリング</a>
+        <a href="#cta" class="price-btn">無料カウンセリング</a>
       </div>
-      <div class="price-card fade-up">
-        <div class="price-plan">メンテナンス月額</div>
-        <div class="price-amount">29,800<span>円（税込）</span></div>
-        <div class="price-period">卒業生限定プラン</div>
-        <ul class="price-features">
+      <div class="price-card reveal">
+        <div class="price-plan">Maintenance Monthly</div>
+        <div class="price-amount">29,800<small>円（税込）</small></div>
+        <div class="price-tax">卒業生限定プラン</div>
+        <ul class="price-list">
           <li>月4回トレーニング</li>
           <li>食事アドバイス（週1回）</li>
           <li>体組成測定（月1回）</li>
-          <li>施設利用フリー</li>
+          <li>施設フリー利用</li>
         </ul>
-        <a href="#cta" class="btn btn-outline">詳しく見る</a>
+        <a href="#cta" class="price-btn">詳細を見る</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== TRAINER ===== -->
-<section class="trainer section" id="trainer">
+<!-- VOICE -->
+<section class="voice section" id="voice">
   <div class="container">
-    <div class="section-title fade-up">トレーナー<span class="accent">紹介</span></div>
-    <div class="section-sub fade-up">経験豊富なプロが、あなたの目標達成をサポート</div>
-    <div class="trainer-content fade-up">
-      <div class="trainer-photo">
-        <div class="trainer-photo-placeholder">
-          <div class="icon">💪</div>
-          <p>TRAINER PHOTO</p>
-        </div>
-      </div>
-      <div class="trainer-info">
-        <h3>山田 大輝</h3>
-        <div class="title">BLAZE FITNESS 代表トレーナー</div>
-        <p>大手パーソナルジムで年間200名以上を指導した経験を持ち、独立後BLAZEを設立。「一生モノの体づくり」をモットーに、科学的根拠に基づいた指導で累計2,400名以上の目標達成をサポート。自身もフィジーク大会で入賞経験あり。</p>
-        <div class="trainer-certs">
-          <span class="trainer-cert">NSCA-CPT</span>
-          <span class="trainer-cert">NESTA-PFT</span>
-          <span class="trainer-cert">管理栄養士監修</span>
-          <span class="trainer-cert">フィジーク入賞</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== VOICE ===== -->
-<section class="section" id="voice">
-  <div class="container">
-    <div class="section-title fade-up">お客様の<span class="accent">声</span></div>
-    <div class="section-sub fade-up">実際にBLAZEに通われたお客様の感想</div>
+    <div class="section-label reveal">Voice</div>
+    <div class="section-title reveal">お客様の声。</div>
     <div class="voice-grid">
-      <div class="voice-card fade-up">
+      <div class="voice-card reveal">
         <div class="voice-header">
-          <div class="voice-avatar">👩</div>
-          <div class="voice-meta">
-            <div class="name">T.S 様</div>
-            <div class="detail">30代女性・会社員</div>
-          </div>
+          <div class="voice-avatar">TS</div>
+          <div><div class="voice-name">T.S 様</div><div class="voice-detail">30代女性 / 会社員</div></div>
         </div>
+        <div class="voice-text">結婚式までに痩せたくて入会しました。食事指導が本当に丁寧で、LINEですぐ返信がもらえるのが心強かったです。2ヶ月で-11kgを達成し、ドレスも1サイズダウンで着られました。</div>
         <div class="voice-stars">★★★★★</div>
-        <div class="voice-text">結婚式までに痩せたくて入会。食事指導が本当に丁寧で、LINEですぐ返信がもらえるのが心強かったです。2ヶ月で-11kgを達成し、ドレスも1サイズダウンで着られました！</div>
       </div>
-      <div class="voice-card fade-up">
+      <div class="voice-card reveal">
         <div class="voice-header">
-          <div class="voice-avatar">👨</div>
-          <div class="voice-meta">
-            <div class="name">K.M 様</div>
-            <div class="detail">40代男性・経営者</div>
-          </div>
+          <div class="voice-avatar">KM</div>
+          <div><div class="voice-name">K.M 様</div><div class="voice-detail">40代男性 / 経営者</div></div>
         </div>
+        <div class="voice-text">健康診断で引っかかり一念発起。トレーナーが毎回メニューを変えてくれるので飽きずに続けられました。内臓脂肪も大幅に改善し、主治医にも马かれています。</div>
         <div class="voice-stars">★★★★★</div>
-        <div class="voice-text">健康診断で引っかかり一念発起。トレーナーの山田さんが毎回メニューを変えてくれるので飽きずに続けられました。内臓脂肪も大幅に改善し、主治医に马かれました。</div>
-      </div>
-      <div class="voice-card fade-up">
-        <div class="voice-header">
-          <div class="voice-avatar">👩</div>
-          <div class="voice-meta">
-            <div class="name">M.H 様</div>
-            <div class="detail">20代女性・看護師</div>
-          </div>
-        </div>
-        <div class="voice-stars">★★★★★</div>
-        <div class="voice-text">夜勤ありのシフト制でも柔軟に予約を入れてもらえたのが本当に助かりました。体重よりも見た目が変わったと周りに言われるのが嬉しいです。一生ものの知識をもらえました。</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== FAQ ===== -->
+<!-- FAQ -->
 <section class="faq section" id="faq">
   <div class="container">
-    <div class="section-title fade-up">よくある<span class="accent">ご質問</span></div>
-    <div class="section-sub fade-up">お気軽にお問い合わせください</div>
+    <div class="section-label reveal">FAQ</div>
+    <div class="section-title reveal">よくあるご質問。</div>
     <div class="faq-list">
-      <div class="faq-item fade-up">
-        <div class="faq-q">運動経験がなくても大丈夫ですか？</div>
-        <div class="faq-a">はい、まったく問題ありません。会員様の約60%が運動初心者です。お一人おひとりの体力レベルに合わせてメニューを組みますので、安心してスタートいただけます。</div>
-      </div>
-      <div class="faq-item fade-up">
-        <div class="faq-q">食事制限は厳しいですか？</div>
-        <div class="faq-a">楶端な食事制限は行いません。管理栄養士監修のもと、普段の食事を少しずつ改善していくアプローチです。外食やコンビニ食のアドバイスもお伝えしますので、無理なく続けられます。</div>
-      </div>
-      <div class="faq-item fade-up">
-        <div class="faq-q">トレーニング時間はどのくらいですか？</div>
-        <div class="faq-a">1回あたり50分です。着替え・シャワー込みで約70〜80分を目安にお越しください。完全予約制なのでお待たせすることもありません。</div>
-      </div>
-      <div class="faq-item fade-up">
-        <div class="faq-q">返金保証はありますか？</div>
-        <div class="faq-a">はい、30日間の全額返金保証をご用意しています。万が一ご満足いただけなかった場合、開始から30日以内であれば全額を返金いたします。</div>
-      </div>
-      <div class="faq-item fade-up">
-        <div class="faq-q">予約の変更やキャンセルはできますか？</div>
-        <div class="faq-a">前日の21時までにご連絡いただければ、無料で変更・キャンセルが可能です。急な体調不良の場合も柔軟に対応しております。</div>
-      </div>
+      <div class="faq-item reveal"><div class="faq-q">運動経験がなくても大丈夫ですか？</div><div class="faq-a">はい、会員様の約60%が運動初心者です。お一人おひとりの体力レベルに合わせてメニューを組みますので、安心してスタートいただけます。</div></div>
+      <div class="faq-item reveal"><div class="faq-q">食事制限は厳しいですか？</div><div class="faq-a">極端な食事制限は行いません。管理栄養士監修のもと、普段の食事を少しずつ改善していくアプローチです。外食やコンビニ食のアドバイスもお伝えします。</div></div>
+      <div class="faq-item reveal"><div class="faq-q">1回のトレーニング時間はどのくらいですか？</div><div class="faq-a">1回あたり50分です。着替え・シャワー込みで約70〜80分を目安にお越しください。完全予約制なのでお待たせしません。</div></div>
+      <div class="faq-item reveal"><div class="faq-q">30日間全額返金保証はありますか？</div><div class="faq-a">はい、ご用意しています。万が一ご満足いただけなかった場合、開始から30日以内であれば全額を返金いたします。</div></div>
+      <div class="faq-item reveal"><div class="faq-q">予約の変更・キャンセルは可能ですか？</div><div class="faq-a">前日21時までのご連絡で無料変更・キャンセルが可能です。急な体調不良にも柔軟に対応しております。</div></div>
     </div>
   </div>
 </section>
 
-<!-- ===== CTA ===== -->
-<section class="cta" id="cta">
+<!-- CTA -->
+<section class="cta-section" id="cta">
   <div class="container">
-    <h2>まずは無料カウンセリングへ</h2>
-    <p>体組成測定 + カウンセリング + 体験トレーニングを<strong>完全無料</strong>でご体験いただけます。無理な勧誘は一切ありません。</p>
-    <a href="#" class="btn" onclick="return false;">無料カウンセリングを予約する</a>
-    <div class="cta-note">※ 毎月先着10名様限定・約60分</div>
+    <div class="cta-content">
+      <div class="cta-urgency reveal">毎月先着10名様限定 — 残り枠わずか</div>
+      <h2 class="reveal">まずは<span class="gold">無料体験</span>へ。</h2>
+      <p class="reveal">体組成測定 + カウンセリング + 体験トレーニングを完全無料でご体験いただけます。無理な勧誘は一切ありません。</p>
+      <a href="#" class="btn-gold reveal" onclick="return false;">無料カウンセリングを予約する →</a>
+    </div>
   </div>
 </section>
 
-<!-- ===== FOOTER ===== -->
+<!-- FOOTER -->
 <footer class="footer">
-  <div class="footer-brand">BLAZE FITNESS</div>
-  <p>〒150-0001 東京都渋谷区神宮前1-2-3 BLAZEビル3F</p>
-  <p style="margin-top:8px">営業時間 7:00〜23:00（年中無休）</p>
-  <p style="margin-top:16px;font-size:.75rem">&copy; 2026 BLAZE FITNESS. All Rights Reserved.</p>
-  <p style="margin-top:8px;font-size:.7rem;opacity:.4">※ これはデモ用のランディングページです。実在する店舗・サービスではありません。</p>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">FORGE BODY</div>
+      <div class="footer-info">
+        〒150-0001 東京都渋谷区神宮前1-2-3<br>
+        営業時間 7:00〜23:00（年中無休）
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="#">プライバシーポリシー</a>
+      <a href="#">特定商取引法</a>
+      <a href="#">お問い合わせ</a>
+    </div>
+  </div>
+  <div class="footer-copy">&copy; 2026 FORGE BODY Inc. All Rights Reserved.</div>
+  <div class="footer-demo">※ これはポートフォリオ用のデモページです。実在するサービスではありません。</div>
 </footer>
 
-<!-- ===== FLOATING CTA ===== -->
+<!-- FLOATING CTA -->
 <div class="floating-cta" id="floatingCta">
-  <a href="#cta" class="btn btn-primary">無料カウンセリングを予約 →</a>
+  <div class="floating-cta-text">今月限定 <span class="gold">入会金無料</span></div>
+  <a href="#cta" class="btn-gold">無料カウンセリング予約 →</a>
 </div>
 
 <script>
-// Intersection Observer for fade-up animations
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
+// Particles
+(function(){
+  const c=document.getElementById('particles');
+  for(let i=0;i<30;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    p.style.left=Math.random()*100+'%';
+    p.style.animationDuration=(8+Math.random()*12)+'s';
+    p.style.animationDelay=Math.random()*10+'s';
+    p.style.width=p.style.height=(1+Math.random()*2)+'px';
+    c.appendChild(p);
+  }
+})();
+
+// Nav scroll
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>80)},{passive:true});
+
+// Reveal on scroll
+const revealObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+
+// Number count-up
+function animateNums(){
+  document.querySelectorAll('.hero-stat-num').forEach(el=>{
+    const target=parseFloat(el.dataset.target);
+    const prefix=el.dataset.prefix||'';
+    const suffix=el.querySelector('span')?.outerHTML||'';
+    const isFloat=String(target).includes('.');
+    const dur=1800;const start=performance.now();
+    function tick(now){
+      const p=Math.min((now-start)/dur,1);
+      const ease=1-Math.pow(1-p,3);
+      const v=target*ease;
+      el.innerHTML=prefix+(isFloat?v.toFixed(1):Math.floor(v).toLocaleString())+suffix;
+      if(p<1)requestAnimationFrame(tick);
     }
+    requestAnimationFrame(tick);
   });
-}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+}
+setTimeout(animateNums,600);
 
-document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-
-// FAQ accordion
-document.querySelectorAll('.faq-item').forEach(item => {
-  item.addEventListener('click', () => {
-    const wasOpen = item.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-    if (!wasOpen) item.classList.add('open');
+// FAQ
+document.querySelectorAll('.faq-item').forEach(item=>{
+  item.addEventListener('click',()=>{
+    const open=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!open)item.classList.add('open');
   });
 });
 
-// Floating CTA visibility
-const floatingCta = document.getElementById('floatingCta');
-const heroSection = document.querySelector('.hero');
-const ctaSection = document.getElementById('cta');
-
-function updateFloatingCta() {
-  const heroBottom = heroSection.getBoundingClientRect().bottom;
-  const ctaTop = ctaSection.getBoundingClientRect().top;
-  const windowH = window.innerHeight;
-  if (heroBottom < 0 && ctaTop > windowH) {
-    floatingCta.classList.add('visible');
-  } else {
-    floatingCta.classList.remove('visible');
-  }
+// Floating CTA
+const floating=document.getElementById('floatingCta');
+const heroEl=document.querySelector('.hero');
+const ctaEl=document.getElementById('cta');
+function checkFloat(){
+  const hb=heroEl.getBoundingClientRect().bottom;
+  const ct=ctaEl.getBoundingClientRect().top;
+  floating.classList.toggle('visible',hb<0&&ct>window.innerHeight);
 }
-window.addEventListener('scroll', updateFloatingCta, { passive: true });
-
-// Smooth number count-up for hero stats
-function animateStats() {
-  const stats = document.querySelectorAll('.hero-stat-num');
-  stats.forEach(stat => {
-    const text = stat.textContent;
-    const match = text.match(/([\d.]+)/);
-    if (!match) return;
-    const target = parseFloat(match[1]);
-    const suffix = text.replace(match[1], '');
-    const isFloat = text.includes('.');
-    let current = 0;
-    const duration = 1600;
-    const startTime = performance.now();
-
-    function update(now) {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      current = target * eased;
-      stat.innerHTML = (isFloat ? current.toFixed(1) : Math.floor(current)) + suffix;
-      if (progress < 1) requestAnimationFrame(update);
-    }
-    requestAnimationFrame(update);
-  });
-}
-// Trigger stat animation after a short delay
-setTimeout(animateStats, 400);
+window.addEventListener('scroll',checkFloat,{passive:true});
 </script>
 </body>
 </html>
