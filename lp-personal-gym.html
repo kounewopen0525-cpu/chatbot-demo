@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLAZE FITNESS | パーソナルジム</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Helvetica Neue',Arial,'Hiragino Kaku Gothic ProN','Hiragino Sans',Meiryo,sans-serif;color:#333;line-height:1.7;overflow-x:hidden}
+img{max-width:100%;height:auto}
+a{text-decoration:none;color:inherit}
+
+/* ===== Utility ===== */
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+.section{padding:80px 0}
+.section-title{text-align:center;font-size:2rem;font-weight:800;margin-bottom:12px;letter-spacing:.05em}
+.section-sub{text-align:center;font-size:.95rem;color:#888;margin-bottom:48px}
+.accent{color:#e63946}
+.btn{display:inline-block;padding:18px 48px;border-radius:50px;font-size:1.05rem;font-weight:700;letter-spacing:.08em;transition:all .3s;cursor:pointer;border:none}
+.btn-primary{background:linear-gradient(135deg,#e63946,#ff6b6b);color:#fff;box-shadow:0 8px 24px rgba(230,57,70,.35)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(230,57,70,.45)}
+.btn-outline{border:2px solid #e63946;color:#e63946;background:transparent}
+.btn-outline:hover{background:#e63946;color:#fff}
+
+/* ===== Hero ===== */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0d0d0d 0%,#1a1a2e 100%);color:#fff;text-align:center;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 40%,rgba(230,57,70,.15) 0%,transparent 50%),radial-gradient(circle at 70% 60%,rgba(255,107,107,.1) 0%,transparent 50%);animation:heroGlow 8s ease-in-out infinite alternate}
+@keyframes heroGlow{0%{transform:translate(0,0)}100%{transform:translate(-3%,-3%)}}
+.hero-content{position:relative;z-index:2;padding:20px}
+.hero-badge{display:inline-block;padding:8px 24px;border:1px solid rgba(230,57,70,.6);border-radius:50px;font-size:.8rem;letter-spacing:.15em;color:#e63946;margin-bottom:24px;text-transform:uppercase}
+.hero h1{font-size:clamp(2.2rem,6vw,4rem);font-weight:900;line-height:1.2;margin-bottom:16px;letter-spacing:.02em}
+.hero h1 span{background:linear-gradient(135deg,#e63946,#ff6b6b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:1.1rem;color:rgba(255,255,255,.7);margin-bottom:40px;max-width:540px;margin-left:auto;margin-right:auto}
+.hero-stats{display:flex;justify-content:center;gap:48px;margin-top:48px;flex-wrap:wrap}
+.hero-stat-num{font-size:2.4rem;font-weight:900;color:#e63946}
+.hero-stat-label{font-size:.8rem;color:rgba(255,255,255,.5);margin-top:4px}
+.scroll-indicator{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);animation:scrollBounce 2s infinite}
+@keyframes scrollBounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(10px)}}
+.scroll-indicator span{display:block;width:2px;height:40px;background:linear-gradient(to bottom,rgba(255,255,255,.4),transparent);margin:0 auto}
+
+/* ===== Problems ===== */
+.problems{background:#fafafa}
+.problem-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;max-width:900px;margin:0 auto}
+.problem-item{background:#fff;border-radius:16px;padding:32px 28px;box-shadow:0 4px 20px rgba(0,0,0,.06);border-left:4px solid #e63946;transition:transform .3s}
+.problem-item:hover{transform:translateY(-4px)}
+.problem-item p{font-size:1.05rem;font-weight:600}
+.problem-item p::before{content:'😰 ';font-size:1.2rem}
+
+/* ===== Features ===== */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:32px}
+.feature-card{background:#fff;border-radius:20px;padding:40px 32px;box-shadow:0 8px 32px rgba(0,0,0,.08);text-align:center;transition:transform .3s}
+.feature-card:hover{transform:translateY(-6px)}
+.feature-icon{width:72px;height:72px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 20px;background:linear-gradient(135deg,#fff0f0,#ffe0e0)}
+.feature-card h3{font-size:1.2rem;font-weight:700;margin-bottom:12px}
+.feature-card p{font-size:.92rem;color:#666;line-height:1.8}
+
+/* ===== Before/After ===== */
+.results{background:linear-gradient(135deg,#0d0d0d,#1a1a2e);color:#fff}
+.results .section-sub{color:rgba(255,255,255,.5)}
+.results-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;max-width:960px;margin:0 auto}
+.result-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:36px 28px;text-align:center;backdrop-filter:blur(8px)}
+.result-label{font-size:.8rem;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.result-name{font-size:1rem;font-weight:600;margin-bottom:16px}
+.result-before{font-size:.9rem;color:rgba(255,255,255,.5);margin-bottom:4px}
+.result-arrow{font-size:1.4rem;margin:8px 0;color:#e63946}
+.result-after{font-size:1.8rem;font-weight:900;color:#e63946}
+.result-period{font-size:.8rem;color:rgba(255,255,255,.4);margin-top:8px}
+
+/* ===== Pricing ===== */
+.pricing-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px;max-width:960px;margin:0 auto}
+.price-card{background:#fff;border-radius:20px;padding:40px 32px;box-shadow:0 8px 32px rgba(0,0,0,.08);text-align:center;position:relative;overflow:hidden;transition:transform .3s}
+.price-card:hover{transform:translateY(-4px)}
+.price-card.popular{border:3px solid #e63946}
+.price-card.popular::before{content:'人気 No.1';position:absolute;top:16px;right:-32px;background:#e63946;color:#fff;padding:4px 40px;font-size:.75rem;font-weight:700;transform:rotate(45deg);letter-spacing:.05em}
+.price-plan{font-size:1rem;font-weight:700;color:#888;margin-bottom:8px}
+.price-amount{font-size:2.8rem;font-weight:900;margin-bottom:4px}
+.price-amount span{font-size:1rem;font-weight:400;color:#888}
+.price-period{font-size:.85rem;color:#aaa;margin-bottom:24px}
+.price-features{list-style:none;text-align:left;margin-bottom:32px}
+.price-features li{padding:8px 0;font-size:.92rem;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;gap:8px}
+.price-features li::before{content:'✓';color:#e63946;font-weight:700;font-size:.85rem}
+
+/* ===== Trainer ===== */
+.trainer{background:#fafafa}
+.trainer-content{display:flex;align-items:center;gap:48px;max-width:900px;margin:0 auto;flex-wrap:wrap}
+.trainer-photo{width:280px;height:340px;border-radius:24px;background:linear-gradient(135deg,#1a1a2e,#2d2d44);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin:0 auto}
+.trainer-photo-placeholder{text-align:center;color:rgba(255,255,255,.6)}
+.trainer-photo-placeholder .icon{font-size:4rem;margin-bottom:12px}
+.trainer-photo-placeholder p{font-size:.8rem}
+.trainer-info{flex:1;min-width:280px}
+.trainer-info h3{font-size:1.5rem;font-weight:800;margin-bottom:8px}
+.trainer-info .title{color:#e63946;font-size:.9rem;font-weight:600;margin-bottom:16px}
+.trainer-info p{font-size:.92rem;color:#555;line-height:1.9;margin-bottom:16px}
+.trainer-certs{display:flex;flex-wrap:wrap;gap:8px}
+.trainer-cert{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:6px 14px;font-size:.78rem;font-weight:600;color:#555}
+
+/* ===== Voice ===== */
+.voice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px;max-width:960px;margin:0 auto}
+.voice-card{background:#fff;border-radius:20px;padding:32px 28px;box-shadow:0 4px 20px rgba(0,0,0,.06)}
+.voice-header{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.voice-avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#ffe0e0,#fff0f0);display:flex;align-items:center;justify-content:center;font-size:1.4rem}
+.voice-meta .name{font-weight:700;font-size:.95rem}
+.voice-meta .detail{font-size:.8rem;color:#888}
+.voice-stars{color:#ffc107;font-size:.9rem;letter-spacing:2px;margin-bottom:12px}
+.voice-text{font-size:.9rem;color:#555;line-height:1.9}
+
+/* ===== FAQ ===== */
+.faq{background:#fafafa}
+.faq-list{max-width:720px;margin:0 auto}
+.faq-item{background:#fff;border-radius:16px;padding:24px 28px;margin-bottom:16px;box-shadow:0 2px 12px rgba(0,0,0,.04);cursor:pointer;transition:box-shadow .3s}
+.faq-item:hover{box-shadow:0 4px 20px rgba(0,0,0,.08)}
+.faq-q{font-weight:700;font-size:1rem;display:flex;justify-content:space-between;align-items:center}
+.faq-q::before{content:'Q.';color:#e63946;font-weight:800;margin-right:8px;flex-shrink:0}
+.faq-q::after{content:'+';font-size:1.4rem;color:#ccc;transition:transform .3s;flex-shrink:0;margin-left:12px}
+.faq-item.open .faq-q::after{transform:rotate(45deg);color:#e63946}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;font-size:.9rem;color:#666;line-height:1.9}
+.faq-item.open .faq-a{max-height:300px;padding-top:16px}
+
+/* ===== CTA ===== */
+.cta{background:linear-gradient(135deg,#e63946,#ff6b6b);color:#fff;text-align:center;padding:80px 20px}
+.cta h2{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;margin-bottom:12px}
+.cta p{font-size:1rem;opacity:.9;margin-bottom:36px;max-width:500px;margin-left:auto;margin-right:auto}
+.cta .btn{background:#fff;color:#e63946;font-weight:800}
+.cta .btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.2)}
+.cta-note{font-size:.8rem;opacity:.7;margin-top:16px}
+
+/* ===== Footer ===== */
+.footer{background:#0d0d0d;color:rgba(255,255,255,.5);text-align:center;padding:40px 20px;font-size:.8rem}
+.footer-brand{font-size:1.2rem;font-weight:800;color:#fff;margin-bottom:8px;letter-spacing:.1em}
+
+/* ===== Floating CTA ===== */
+.floating-cta{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:100;opacity:0;pointer-events:none;transition:opacity .4s}
+.floating-cta.visible{opacity:1;pointer-events:auto}
+.floating-cta .btn{padding:14px 36px;font-size:.95rem;box-shadow:0 8px 28px rgba(230,57,70,.4)}
+
+/* ===== Animations ===== */
+.fade-up{opacity:0;transform:translateY(30px);transition:opacity .7s,transform .7s}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+
+/* ===== Responsive ===== */
+@media(max-width:768px){
+  .section{padding:56px 0}
+  .section-title{font-size:1.6rem}
+  .hero-stats{gap:28px}
+  .hero-stat-num{font-size:1.8rem}
+  .trainer-content{flex-direction:column;text-align:center}
+  .trainer-certs{justify-content:center}
+  .price-features{padding:0 8px}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="top">
+  <div class="hero-content">
+    <div class="hero-badge">Results Guaranteed</div>
+    <h1>2ヶ月で理想の体へ。<br><span>人生最後のダイエット</span></h1>
+    <p>完全個室・完全マンツーマン指導。<br>あなた専用のプログラムで確実に結果を出します。</p>
+    <a href="#cta" class="btn btn-primary">無料カウンセリングを予約する</a>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">98<span style="font-size:1.2rem">%</span></div>
+        <div class="hero-stat-label">目標達成率</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">2,400<span style="font-size:1.2rem">+</span></div>
+        <div class="hero-stat-label">累計指導実縞</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">-8.5<span style="font-size:1.2rem">kg</span></div>
+        <div class="hero-stat-label">平均減量</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-indicator"><span></span></div>
+</section>
+
+<!-- ===== PROBLEMS ===== -->
+<section class="problems section" id="problems">
+  <div class="container">
+    <div class="section-title fade-up">こんなお悩み<span class="accent">ありませんか？</span></div>
+    <div class="section-sub fade-up">一つでも当てはまるなら、BLAZEがお力になれます</div>
+    <div class="problem-list">
+      <div class="problem-item fade-up"><p>何度ダイエットしてもリバウンドしてしまう</p></div>
+      <div class="problem-item fade-up"><p>ジムに通っても正しいフォームが分からない</p></div>
+      <div class="problem-item fade-up"><p>食事制限が続かず、すぐ挫折してしまう</p></div>
+      <div class="problem-item fade-up"><p>年齢とともに体型の崩れが気になってきた</p></div>
+      <div class="problem-item fade-up"><p>一人でのトレーニングにモチベーションが保てない</p></div>
+      <div class="problem-item fade-up"><p>結婚式・同窓会までに確実に痩せたい</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURES ===== -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="section-title fade-up">BLAZEが選ばれる<span class="accent">3つの理由</span></div>
+    <div class="section-sub fade-up">科学的根拠に基づいた、結果にこだわるプログラム</div>
+    <div class="features-grid">
+      <div class="feature-card fade-up">
+        <div class="feature-icon">🧬</div>
+        <h3>遺伝子タイプ別プログラム</h3>
+        <p>DNA検査に基づき、糖質代謝型・脂質代謝型など体質に合わせた最適なトレーニングと食事プランを設計。無駄のない効率的なボディメイクを実現します。</p>
+      </div>
+      <div class="feature-card fade-up">
+        <div class="feature-icon">🍽️</div>
+        <h3>毎日の食事サポート</h3>
+        <p>専属の管理栄養士がLINEで毎食アドバイス。「何を食べていいか分からない」を解消し、無理のない食事改善で一生モノの食習慣を身につけます。</p>
+      </div>
+      <div class="feature-card fade-up">
+        <div class="feature-icon">🔄</div>
+        <h3>リバウンド防止保証</h3>
+        <p>卒業後3ヶ月間の無料フォローアップ付き。月1回のカウンセリングと体組成チェックで、理想の体型を維持するところまでサポートします。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RESULTS ===== -->
+<section class="results section" id="results">
+  <div class="container">
+    <div class="section-title fade-up">実績・<span class="accent">ビフォーアフター</span></div>
+    <div class="section-sub fade-up">多くのお客様が目標を達成されています</div>
+    <div class="results-grid">
+      <div class="result-card fade-up">
+        <div class="result-label">CASE 01</div>
+        <div class="result-name">T.S 様（30代女性）</div>
+        <div class="result-before">65.2 kg / 体脂肪率 32.4%</div>
+        <div class="result-arrow">▼</div>
+        <div class="result-after">53.8 kg / 24.1%</div>
+        <div class="result-period">2ヶ月コース</div>
+      </div>
+      <div class="result-card fade-up">
+        <div class="result-label">CASE 02</div>
+        <div class="result-name">K.M 様（40代男性）</div>
+        <div class="result-before">82.6 kg / 体脂肪率 28.7%</div>
+        <div class="result-arrow">▼</div>
+        <div class="result-after">71.3 kg / 18.2%</div>
+        <div class="result-period">3ヶ月コース</div>
+      </div>
+      <div class="result-card fade-up">
+        <div class="result-label">CASE 03</div>
+        <div class="result-name">A.Y 様（20代女性）</div>
+        <div class="result-before">58.9 kg / 体脂肪率 29.8%</div>
+        <div class="result-arrow">▼</div>
+        <div class="result-after">50.2 kg / 21.5%</div>
+        <div class="result-period">2ヶ月コース</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section class="section" id="pricing">
+  <div class="container">
+    <div class="section-title fade-up">料金<span class="accent">プラン</span></div>
+    <div class="section-sub fade-up">入会金 33,000円（税込）→ 今月限定 <strong style="color:#e63946">無料</strong></div>
+    <div class="pricing-cards">
+      <div class="price-card fade-up">
+        <div class="price-plan">集中2ヶ月コース</div>
+        <div class="price-amount">198,000<span>円（税込）</span></div>
+        <div class="price-period">月々 9,900円〜の分割OK</div>
+        <ul class="price-features">
+          <li>パーソナルトレーニング 全16回</li>
+          <li>食事指導（毎日LINE対応）</li>
+          <li>プロテイン1ヶ月分</li>
+          <li>ウェア・タオル・シューズ無料</li>
+          <li>水素水飲み放題</li>
+        </ul>
+        <a href="#cta" class="btn btn-outline">詳しく見る</a>
+      </div>
+      <div class="price-card popular fade-up">
+        <div class="price-plan">役底3ヶ月コース</div>
+        <div class="price-amount">278,000<span>円（税込）</span></div>
+        <div class="price-period">月々 12,800円〜の分割OK</div>
+        <ul class="price-features">
+          <li>パーソナルトレーニング 全24回</li>
+          <li>食事指導（毎日LINE対応）</li>
+          <li>DNA検査 & 体質別プラン作成</li>
+          <li>プロテイン3ヶ月分</li>
+          <li>ウェア・タオル・シューズ無料</li>
+          <li>卒業後3ヶ月フォロー付き</li>
+        </ul>
+        <a href="#cta" class="btn btn-primary">無料カウンセリング</a>
+      </div>
+      <div class="price-card fade-up">
+        <div class="price-plan">メンテナンス月額</div>
+        <div class="price-amount">29,800<span>円（税込）</span></div>
+        <div class="price-period">卒業生限定プラン</div>
+        <ul class="price-features">
+          <li>月4回トレーニング</li>
+          <li>食事アドバイス（週1回）</li>
+          <li>体組成測定（月1回）</li>
+          <li>施設利用フリー</li>
+        </ul>
+        <a href="#cta" class="btn btn-outline">詳しく見る</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TRAINER ===== -->
+<section class="trainer section" id="trainer">
+  <div class="container">
+    <div class="section-title fade-up">トレーナー<span class="accent">紹介</span></div>
+    <div class="section-sub fade-up">経験豊富なプロが、あなたの目標達成をサポート</div>
+    <div class="trainer-content fade-up">
+      <div class="trainer-photo">
+        <div class="trainer-photo-placeholder">
+          <div class="icon">💪</div>
+          <p>TRAINER PHOTO</p>
+        </div>
+      </div>
+      <div class="trainer-info">
+        <h3>山田 大輝</h3>
+        <div class="title">BLAZE FITNESS 代表トレーナー</div>
+        <p>大手パーソナルジムで年間200名以上を指導した経験を持ち、独立後BLAZEを設立。「一生モノの体づくり」をモットーに、科学的根拠に基づいた指導で累計2,400名以上の目標達成をサポート。自身もフィジーク大会で入賞経験あり。</p>
+        <div class="trainer-certs">
+          <span class="trainer-cert">NSCA-CPT</span>
+          <span class="trainer-cert">NESTA-PFT</span>
+          <span class="trainer-cert">管理栄養士監修</span>
+          <span class="trainer-cert">フィジーク入賞</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== VOICE ===== -->
+<section class="section" id="voice">
+  <div class="container">
+    <div class="section-title fade-up">お客様の<span class="accent">声</span></div>
+    <div class="section-sub fade-up">実際にBLAZEに通われたお客様の感想</div>
+    <div class="voice-grid">
+      <div class="voice-card fade-up">
+        <div class="voice-header">
+          <div class="voice-avatar">👩</div>
+          <div class="voice-meta">
+            <div class="name">T.S 様</div>
+            <div class="detail">30代女性・会社員</div>
+          </div>
+        </div>
+        <div class="voice-stars">★★★★★</div>
+        <div class="voice-text">結婚式までに痩せたくて入会。食事指導が本当に丁寧で、LINEですぐ返信がもらえるのが心強かったです。2ヶ月で-11kgを達成し、ドレスも1サイズダウンで着られました！</div>
+      </div>
+      <div class="voice-card fade-up">
+        <div class="voice-header">
+          <div class="voice-avatar">👨</div>
+          <div class="voice-meta">
+            <div class="name">K.M 様</div>
+            <div class="detail">40代男性・経営者</div>
+          </div>
+        </div>
+        <div class="voice-stars">★★★★★</div>
+        <div class="voice-text">健康診断で引っかかり一念発起。トレーナーの山田さんが毎回メニューを変えてくれるので飽きずに続けられました。内臓脂肪も大幅に改善し、主治医に马かれました。</div>
+      </div>
+      <div class="voice-card fade-up">
+        <div class="voice-header">
+          <div class="voice-avatar">👩</div>
+          <div class="voice-meta">
+            <div class="name">M.H 様</div>
+            <div class="detail">20代女性・看護師</div>
+          </div>
+        </div>
+        <div class="voice-stars">★★★★★</div>
+        <div class="voice-text">夜勤ありのシフト制でも柔軟に予約を入れてもらえたのが本当に助かりました。体重よりも見た目が変わったと周りに言われるのが嬉しいです。一生ものの知識をもらえました。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="faq section" id="faq">
+  <div class="container">
+    <div class="section-title fade-up">よくある<span class="accent">ご質問</span></div>
+    <div class="section-sub fade-up">お気軽にお問い合わせください</div>
+    <div class="faq-list">
+      <div class="faq-item fade-up">
+        <div class="faq-q">運動経験がなくても大丈夫ですか？</div>
+        <div class="faq-a">はい、まったく問題ありません。会員様の約60%が運動初心者です。お一人おひとりの体力レベルに合わせてメニューを組みますので、安心してスタートいただけます。</div>
+      </div>
+      <div class="faq-item fade-up">
+        <div class="faq-q">食事制限は厳しいですか？</div>
+        <div class="faq-a">楶端な食事制限は行いません。管理栄養士監修のもと、普段の食事を少しずつ改善していくアプローチです。外食やコンビニ食のアドバイスもお伝えしますので、無理なく続けられます。</div>
+      </div>
+      <div class="faq-item fade-up">
+        <div class="faq-q">トレーニング時間はどのくらいですか？</div>
+        <div class="faq-a">1回あたり50分です。着替え・シャワー込みで約70〜80分を目安にお越しください。完全予約制なのでお待たせすることもありません。</div>
+      </div>
+      <div class="faq-item fade-up">
+        <div class="faq-q">返金保証はありますか？</div>
+        <div class="faq-a">はい、30日間の全額返金保証をご用意しています。万が一ご満足いただけなかった場合、開始から30日以内であれば全額を返金いたします。</div>
+      </div>
+      <div class="faq-item fade-up">
+        <div class="faq-q">予約の変更やキャンセルはできますか？</div>
+        <div class="faq-a">前日の21時までにご連絡いただければ、無料で変更・キャンセルが可能です。急な体調不良の場合も柔軟に対応しております。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta" id="cta">
+  <div class="container">
+    <h2>まずは無料カウンセリングへ</h2>
+    <p>体組成測定 + カウンセリング + 体験トレーニングを<strong>完全無料</strong>でご体験いただけます。無理な勧誘は一切ありません。</p>
+    <a href="#" class="btn" onclick="return false;">無料カウンセリングを予約する</a>
+    <div class="cta-note">※ 毎月先着10名様限定・約60分</div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-brand">BLAZE FITNESS</div>
+  <p>〒150-0001 東京都渋谷区神宮前1-2-3 BLAZEビル3F</p>
+  <p style="margin-top:8px">営業時間 7:00〜23:00（年中無休）</p>
+  <p style="margin-top:16px;font-size:.75rem">&copy; 2026 BLAZE FITNESS. All Rights Reserved.</p>
+  <p style="margin-top:8px;font-size:.7rem;opacity:.4">※ これはデモ用のランディングページです。実在する店舗・サービスではありません。</p>
+</footer>
+
+<!-- ===== FLOATING CTA ===== -->
+<div class="floating-cta" id="floatingCta">
+  <a href="#cta" class="btn btn-primary">無料カウンセリングを予約 →</a>
+</div>
+
+<script>
+// Intersection Observer for fade-up animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// FAQ accordion
+document.querySelectorAll('.faq-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  });
+});
+
+// Floating CTA visibility
+const floatingCta = document.getElementById('floatingCta');
+const heroSection = document.querySelector('.hero');
+const ctaSection = document.getElementById('cta');
+
+function updateFloatingCta() {
+  const heroBottom = heroSection.getBoundingClientRect().bottom;
+  const ctaTop = ctaSection.getBoundingClientRect().top;
+  const windowH = window.innerHeight;
+  if (heroBottom < 0 && ctaTop > windowH) {
+    floatingCta.classList.add('visible');
+  } else {
+    floatingCta.classList.remove('visible');
+  }
+}
+window.addEventListener('scroll', updateFloatingCta, { passive: true });
+
+// Smooth number count-up for hero stats
+function animateStats() {
+  const stats = document.querySelectorAll('.hero-stat-num');
+  stats.forEach(stat => {
+    const text = stat.textContent;
+    const match = text.match(/([\d.]+)/);
+    if (!match) return;
+    const target = parseFloat(match[1]);
+    const suffix = text.replace(match[1], '');
+    const isFloat = text.includes('.');
+    let current = 0;
+    const duration = 1600;
+    const startTime = performance.now();
+
+    function update(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      current = target * eased;
+      stat.innerHTML = (isFloat ? current.toFixed(1) : Math.floor(current)) + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  });
+}
+// Trigger stat animation after a short delay
+setTimeout(animateStats, 400);
+</script>
+</body>
+</html>
